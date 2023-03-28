@@ -1,29 +1,34 @@
 import { useState } from 'react';
-
-const Todo = ({ todoData }) => {
-  const { id, text, completed, deleteTodo, updateTodo, toggleTodoCompleted } =
-    todoData;
+import styles from './todoList.module.scss';
+const Todo = ({
+  todoId,
+  todoText,
+  todoCompleted,
+  deleteTodo,
+  toggleTodoCompleted,
+  updateTodo,
+}) => {
   const [edit, setEdit] = useState(false);
-  const [editInputData, setEditInputData] = useState(text);
+  const [editInputData, setEditInputData] = useState(todoText);
+  const onBlurInputHandler = () => {
+    updateTodo(todoId, editInputData);
+    setEdit(false);
+  };
+
   return (
-    <div>
-      <button onClick={() => toggleTodoCompleted(id)}>
-        {completed ? 'completed' : 'active'}
-      </button>
+    <div className={styles.todoContainer}>
+      <button onClick={() => toggleTodoCompleted(todoId)}>&#10003;</button>
       {edit ? (
         <input
           onChange={(e) => setEditInputData(e.target.value)}
-          onBlur={() => {
-            updateTodo(id, editInputData);
-            setEdit(false);
-          }}
+          onBlur={onBlurInputHandler}
           type="text"
           value={editInputData}
         />
       ) : (
-        <p onDoubleClick={() => setEdit(true)}>{text}</p>
+        <p onDoubleClick={() => setEdit(true)}>{todoText}</p>
       )}
-      <button onClick={() => deleteTodo(id)}>del</button>
+      <button onClick={() => deleteTodo(todoId)}> &#10008;</button>
     </div>
   );
 };

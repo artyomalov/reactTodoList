@@ -1,12 +1,7 @@
 import TodoCounter from './TodoCounter';
 import CompletedRemover from './CompletedRemover';
 import Filter from './Filter';
-const TodoFooter = ({ todos, setTodos, filter, setFilter }) => {
-  const activeTodosCounter = todos.filter((todo) => !todo.completed).length;
-  const removeAllCompleted = () => {
-    setTodos([...todos.filter((todo) => !todo.completed)]);
-  };
-
+const TodoFooter = ({ removeAllCompleted, activeTodosCounter, setFilter }) => {
   return (
     <div>
       <TodoCounter activeTodosCounter={activeTodosCounter} />

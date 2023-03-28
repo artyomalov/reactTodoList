@@ -1,17 +1,14 @@
 import { useState } from 'react';
+import styles from './input.module.scss';
 
-function Input({ setTodos, todos }) {
+function Input({ addTodo }) {
   const [text, setText] = useState('');
-  const addTodo = (e) => {
+
+  const addTodoHandler = (e) => {
     if (e.keyCode === 13) {
       if (text.trim()) {
         e.preventDefault();
-        const newTodo = {
-          id: 'id' + (Date.now() + Math.random()).toString(),
-          text,
-          completed: false,
-        };
-        setTodos([...todos, newTodo]);
+        addTodo(text);
         setText('');
       }
     }
@@ -19,9 +16,10 @@ function Input({ setTodos, todos }) {
 
   return (
     <input
+      className={styles.input}
       onChange={(e) => setText(e.target.value)}
       onKeyDown={(e) => {
-        addTodo(e);
+        addTodoHandler(e);
       }}
       type="text"
       value={text}

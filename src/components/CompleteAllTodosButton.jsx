@@ -1,13 +1,11 @@
-const CompleteAllTodosButton = ({ todos, setTodos }) => {
-  const completeAllTodos = () => {
-    const alltodosCompleted = todos.map((todo) => ({
-      ...todo,
-      completed: true,
-    }));
-    setTodos(alltodosCompleted);
-  };
+import styles from './completeAllTodosButton.module.scss';
 
-  return <button onClick={completeAllTodos}>Complete all todos</button>;
+const CompleteAllTodosButton = ({ completeAllTodos }) => {
+  return (
+    <div className={styles.button} onClick={completeAllTodos}>
+      &#10003;
+    </div>
+  );
 };
 
 export default CompleteAllTodosButton;

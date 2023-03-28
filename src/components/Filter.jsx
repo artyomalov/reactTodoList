@@ -9,9 +9,9 @@ const Filter = ({ setFilter }) => {
 
   return (
     <div>
-      <FilterItem setFilter={setFilter} value={filterValues.active} />
-      <FilterItem setFilter={setFilter} value={filterValues.completed} />
-      <FilterItem setFilter={setFilter} value={filterValues.all} />
+      <FilterItem setFilter={setFilter} value="active" />
+      <FilterItem setFilter={setFilter} value="completed" />
+      <FilterItem setFilter={setFilter} value="all" />
     </div>
   );
 };

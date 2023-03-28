@@ -1,0 +1,9 @@
+@import 'commonStyles.scss';
+.input {
+  width: 90%;
+  height: 30px;
+  border: none;
+  outline: none;
+  background-color: $containerColor;
+  margin: 0 auto;
+}
