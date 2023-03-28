@@ -1,0 +1,10 @@
+@import './commonStyles.scss';
+.todoFooter {
+  width: $containerWidth;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  background-color: $containerColor;
+  border-top: 2px solid $backgroundColor;
+  align-items: center;
+}

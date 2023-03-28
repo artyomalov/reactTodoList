@@ -1,0 +1,9 @@
+@import './commonStyles.scss';
+.todoList {
+  width: $containerWidth;
+  background-color: $containerColor;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

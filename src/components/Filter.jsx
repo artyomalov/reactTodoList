@@ -1,17 +1,15 @@
 import FilterItem from './FilterItem';
 
-const Filter = ({ setFilter }) => {
-  const filterValues = {
-    all: 'all',
-    active: 'active',
-    completed: 'completed',
-  };
-
+const Filter = (props) => {
   return (
     <div>
-      <FilterItem setFilter={setFilter} value="active" />
-      <FilterItem setFilter={setFilter} value="completed" />
-      <FilterItem setFilter={setFilter} value="all" />
+      {props.filterValues.map((filterValue, index) => (
+        <FilterItem
+          key={index} //можно ли в данном случае использовать индекс элемента в качестве ключа?
+          setFilter={props.setFilter}
+          filterValue={filterValue}
+        />
+      ))}
     </div>
   );
 };

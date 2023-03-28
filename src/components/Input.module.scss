@@ -1,9 +1,12 @@
 @import 'commonStyles.scss';
 .input {
-  width: 90%;
-  height: 30px;
+  width: 80%;
+  height: 50px;
   border: none;
   outline: none;
   background-color: $containerColor;
   margin: 0 auto;
+  font-size: 20px;
+  vertical-align: middle;
+  padding-left: 2px;
 }

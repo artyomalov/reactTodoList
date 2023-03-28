@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import TodoList from './components/TodoList';
 import TodoHeader from './components/TodoHeader';
-import './App.scss';
+import styles from './app.module.scss';
 import TodoFooter from './components/TodoFooter';
 
 // { id: 1, text: 'text', completed: false }
@@ -11,12 +11,15 @@ function App() {
   const [filter, setFilter] = useState('all');
   const activeTodosCounter = todos.filter((todo) => !todo.completed).length;
   const todosCounter = todos.length;
+  const allTodosCompleted = todosCounter - activeTodosCounter === todosCounter;
+
+  const filterValues = ['active', 'completed', 'all'];
 
   const filterTodos = () => {
-    if (filter === 'active') {
+    if (filter === filterValues[0]) {
       return todos.filter((todo) => !todo.completed);
     }
-    if (filter === 'completed') {
+    if (filter === filterValues[1]) {
       return todos.filter((todo) => todo.completed);
     }
     return todos;
@@ -31,12 +34,21 @@ function App() {
     setTodos([...todos, newTodo]);
   };
 
-  const completeAllTodos = () => {
-    const alltodosCompleted = todos.map((todo) => ({
-      ...todo,
-      completed: true,
-    }));
-    setTodos(alltodosCompleted);
+  const completeAllTodosToggler = () => {
+    if (allTodosCompleted) {
+      setTodos(todos.map((todo) => ({ ...todo, completed: false })));
+      return;
+    }
+    const completeAllTodos = todos.map((todo) => {
+      if (todo.completed) {
+        return todo;
+      }
+      return {
+        ...todo,
+        completed: !todo.completed,
+      };
+    });
+    setTodos(completeAllTodos);
   };
 
   const deleteTodo = (id) => {
@@ -68,37 +80,30 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className={styles.App}>
       <TodoHeader
-        completeAllTodos={completeAllTodos}
+        completeAllTodosToggler={completeAllTodosToggler}
         addTodo={addTodo}
         todosCounter={todosCounter}
+        allTodosCompleted={allTodosCompleted}
       />
 
-      {todos.length === 0 || (
-        <div className="todoBody">
-          <TodoList
-            filteredTodos={filteredTodos}
-            deleteTodo={deleteTodo}
-            toggleTodoCompleted={toggleTodoCompleted}
-            updateTodo={updateTodo}
-          />
-          <TodoFooter
-            setFilter={setFilter}
-            removeAllCompleted={removeAllCompleted}
-            activeTodosCounter={activeTodosCounter}
-          />
-        </div>
+      <TodoList
+        filteredTodos={filteredTodos}
+        deleteTodo={deleteTodo}
+        toggleTodoCompleted={toggleTodoCompleted}
+        updateTodo={updateTodo}
+      />
+      {Boolean(todos.length) && (
+        <TodoFooter
+          setFilter={setFilter}
+          removeAllCompleted={removeAllCompleted}
+          activeTodosCounter={activeTodosCounter}
+          filterValues={filterValues}
+        />
       )}
     </div>
   );
 }
 
 export default App;
-
-// всю логику в арр
-// header component
-//filter const
-//delete useless callbacks
-//rewrite props
-// rewrite mutations in update todos functions

@@ -1,27 +1,24 @@
 import Todo from './Todo';
-import styles from './todoList.module.scss';
+import styles from './TodoList.module.scss';
 
-const Todos = ({
-  filteredTodos,
-  deleteTodo,
-  toggleTodoCompleted,
-  updateTodo,
-}) => {
-  return filteredTodos.length === 0 ? (
-    <p>no todos</p>
-  ) : (
-    <div>
-      {filteredTodos.map((todo) => (
-        <Todo
-          key={todo.id}
-          todoId={todo.id}
-          todoText={todo.text}
-          todoCompleted={todo.completed}
-          deleteTodo={deleteTodo}
-          toggleTodoCompleted={toggleTodoCompleted}
-          updateTodo={updateTodo}
-        />
-      ))}
+const Todos = (props) => {
+  return (
+    <div className={styles.todoList}>
+      {props.filteredTodos.length === 0 ? (
+        <p>no todos</p>
+      ) : (
+        props.filteredTodos.map((todo) => (
+          <Todo
+            key={todo.id}
+            todoId={todo.id}
+            todoText={todo.text}
+            todoCompleted={todo.completed}
+            deleteTodo={props.deleteTodo}
+            toggleTodoCompleted={props.toggleTodoCompleted}
+            updateTodo={props.updateTodo}
+          />
+        ))
+      )}
     </div>
   );
 };

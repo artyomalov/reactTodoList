@@ -1,0 +1,18 @@
+@import './commonStyles.scss';
+
+.todoHeader {
+  width: $containerWidth;
+  height: 150px;
+  background-color: $containerColor;
+}
+
+.todoHeader__header {
+  margin-top: 30px;
+  text-align: center;
+}
+.todoHeader__body {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

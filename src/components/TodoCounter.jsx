@@ -1,9 +1,11 @@
-const TodoCounter = ({ activeTodosCounter }) => {
-  const itemEnding = activeTodosCounter === 1 ? 'item' : 'items';
+import styles from './TodoCounter.module.scss';
+
+const TodoCounter = (props) => {
+  const itemEnding = props.activeTodosCounter === 1 ? 'item' : 'items';
 
   return (
-    <div>
-      {activeTodosCounter} {itemEnding} left
+    <div className={styles.todoCounter}>
+      {props.activeTodosCounter} {itemEnding} left
     </div>
   );
 };

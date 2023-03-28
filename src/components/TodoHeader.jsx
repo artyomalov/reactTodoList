@@ -1,15 +1,18 @@
 import CompleteAllTodosButton from './CompleteAllTodosButton';
 import Input from './Input';
-
-const TodoHeader = ({ completeAllTodos, addTodo, todosCounter }) => {
+import styles from './TodoHeader.module.scss';
+const TodoHeader = (props) => {
   return (
-    <div className="todoHeader">
-      <h1 className="todoHeader__header">Todos</h1>
-      <div className="todoHeader__body">
-        {todosCounter === 0 || (
-          <CompleteAllTodosButton completeAllTodos={completeAllTodos} />
+    <div className={styles.todoHeader}>
+      <h1 className={styles.todoHeader__header}>Todos</h1>
+      <div className={styles.todoHeader__body}>
+        {props.todosCounter === 0 || (
+          <CompleteAllTodosButton
+            completeAllTodosToggler={props.completeAllTodosToggler}
+            allTodosCompleted={props.allTodosCompleted}
+          />
         )}
-        <Input addTodo={addTodo} />
+        <Input addTodo={props.addTodo} />
       </div>
     </div>
   );

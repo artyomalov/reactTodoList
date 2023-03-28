@@ -1,13 +1,13 @@
 import React from 'react';
 
-function FilterItem({ setFilter, value }) {
+function FilterItem(props) {
   return (
     <button
       onClick={() => {
-        setFilter(value);
+        props.setFilter(props.filterValue);
       }}
     >
-      {value}
+      {props.filterValue}
     </button>
   );
 }

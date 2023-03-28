@@ -1,9 +1,14 @@
-import styles from './completeAllTodosButton.module.scss';
+import styles from './CompleteAllTodosButton.module.scss';
 
-const CompleteAllTodosButton = ({ completeAllTodos }) => {
+const CompleteAllTodosButton = (props) => {
   return (
-    <div className={styles.button} onClick={completeAllTodos}>
-      &#10003;
+    <div
+      className={
+        props.allTodosCompleted ? styles.button : styles.button_disabled
+      }
+      onClick={props.completeAllTodosToggler}
+    >
+      <span className={styles.buttonCheckMark}></span>
     </div>
   );
 };

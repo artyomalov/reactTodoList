@@ -1,27 +1,25 @@
 import { useState } from 'react';
-import styles from './input.module.scss';
+import styles from './Input.module.scss';
 
-function Input({ addTodo }) {
+function Input(props) {
   const [text, setText] = useState('');
 
   const addTodoHandler = (e) => {
-    if (e.keyCode === 13) {
-      if (text.trim()) {
-        e.preventDefault();
-        addTodo(text);
-        setText('');
-      }
+    if (e.key !== 'Enter') {
+      return;
     }
+    if (!text.trim()) {
+      return;
+    }
+    props.addTodo(text);
+    setText('');
   };
 
   return (
     <input
       className={styles.input}
       onChange={(e) => setText(e.target.value)}
-      onKeyDown={(e) => {
-        addTodoHandler(e);
-      }}
-      type="text"
+      onKeyDown={addTodoHandler}
       value={text}
       placeholder="What needs to be done"
     />
