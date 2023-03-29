@@ -4,21 +4,16 @@ import styles from './TodoList.module.scss';
 const Todos = (props) => {
   return (
     <div className={styles.todoList}>
-      {props.filteredTodos.length === 0 ? (
-        <p>no todos</p>
-      ) : (
+      {Boolean(props.filteredTodos.length) &&
         props.filteredTodos.map((todo) => (
           <Todo
             key={todo.id}
-            todoId={todo.id}
-            todoText={todo.text}
-            todoCompleted={todo.completed}
+            todo={todo}
             deleteTodo={props.deleteTodo}
             toggleTodoCompleted={props.toggleTodoCompleted}
             updateTodo={props.updateTodo}
           />
-        ))
-      )}
+        ))}
     </div>
   );
 };

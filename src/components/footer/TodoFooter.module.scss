@@ -1,0 +1,70 @@
+@import '../commonStyles.scss';
+.todoFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: $containerWidth;
+  height: 50px;
+  background-color: $containerColor;
+  border-top: 2px solid $backgroundColor;
+  padding: 3%;
+}
+
+.completedRemover,
+.completedRemover_hidden {
+  display: inline-block;
+  height: 18px;
+  background: none;
+  border: none;
+  transition: all $timing linear;
+  cursor: pointer;
+}
+
+.completedRemover:hover {
+  color: rgb(175, 0, 0);
+}
+
+.completedRemover {
+  opacity: 1;
+}
+
+.completedRemover_hidden {
+  opacity: 0;
+}
+
+@media (max-width: $mediaMaxWidth) {
+  .todoFooter {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+    position: relative;
+  }
+
+  .completedRemover,
+  .completedRemover_hidden {
+    width: 100%;
+    height: 42px;
+    border-top: 2px solid $backgroundColor;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 3%;
+    position: absolute;
+    z-index: -1;
+    background-color: $containerColor;
+  }
+  .completedRemover {
+    opacity: 1;
+    transform: scaleY(1);
+    bottom: -52px;
+  }
+
+  .completedRemover_hidden {
+    opacity: 0;
+    transform: scaleY(0);
+    bottom: 0;
+  }
+}

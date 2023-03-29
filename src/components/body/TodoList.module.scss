@@ -1,6 +1,7 @@
-@import './commonStyles.scss';
+@import '../commonStyles.scss';
 .todoList {
-  width: $containerWidth;
+  max-width: $containerWidth;
+  width: 100%;
   background-color: $containerColor;
   height: fit-content;
   display: flex;

@@ -1,12 +1,12 @@
-@import './commonStyles.scss';
+@import '../commonStyles.scss';
 .todoContainer {
   width: 100%;
   height: 50px;
   display: flex;
-  // justify-content: space-between;
-  text-align: center;
+  justify-content: space-between;
   align-items: center;
   border-top: 2px solid $backgroundColor;
+  padding: 3%;
 }
 
 .completeButton {
@@ -16,43 +16,44 @@
   border: 2px solid $backgroundColor;
   text-align: center;
   vertical-align: middle;
-  margin-left: 6%;
+  cursor: pointer;
 }
 
+.buttonCheckMark__hidden,
 .buttonCheckMark {
   display: inline-block;
+  opacity: 1;
   width: 9px;
   height: 9px;
   border: solid $checkColor;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   margin-bottom: 2px;
+  scale: 1;
 }
 
 .buttonCheckMark__hidden {
-  display: none;
+  scale: 0;
+  opacity: 0;
+  transition: all $timing linear;
 }
 
-.todoText {
-  width: 50%;
+.todoText,
+.todoText_completed {
+  width: 80%;
   height: 30px;
-  margin-left: 5%;
-  padding-top: 6px;
+  padding-top: 8px;
   text-align: start;
+  vertical-align: middle;
+  overflow: hidden;
 }
 .todoText_completed {
-  width: 50%;
-  height: 30px;
-  margin-left: 5%;
-  padding-top: 6px;
-  text-align: start;
   text-decoration: line-through;
 }
 
 .editTodoInput {
-  width: 50%;
+  width: 80%;
   height: 30px;
-  margin-left: 30px;
   text-align: start;
 }
 
@@ -61,9 +62,8 @@ $right: 5px;
 $crossColor: rgb(175, 0, 0);
 $crossWidth: 20px;
 $crossHeight: 3px;
-$timing: 0.15s;
+
 .deleteTodoButton {
-  margin-left: 25%;
   position: relative;
   width: 30px;
   height: 30px;

@@ -1,37 +1,46 @@
-import { useState } from 'react';
-import TodoList from './components/TodoList';
-import TodoHeader from './components/TodoHeader';
+import React from 'react';
+import TodoList from './components/body/TodoList';
+import TodoHeader from './components/header/TodoHeader';
+import TodoFooter from './components/footer/TodoFooter';
 import styles from './app.module.scss';
-import TodoFooter from './components/TodoFooter';
 
-// { id: 1, text: 'text', completed: false }
+const filterValues = ['all', 'active', 'completed'];
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [filter, setFilter] = useState('all');
+  const [todos, setTodos] = React.useState([]);
+  const [filter, setFilter] = React.useState(filterValues[0]);
+  // const [buttonClick, setButtonClick] = React.useState(0);
+
   const activeTodosCounter = todos.filter((todo) => !todo.completed).length;
   const todosCounter = todos.length;
   const allTodosCompleted = todosCounter - activeTodosCounter === todosCounter;
+  const someTodosCompleted = todosCounter - activeTodosCounter > 0;
 
-  const filterValues = ['active', 'completed', 'all'];
-
-  const filterTodos = () => {
-    if (filter === filterValues[0]) {
+  const filterTodos = (filter, todos) => {
+    // console.log('Call filter todos');
+    if (filter === filterValues[1]) {
       return todos.filter((todo) => !todo.completed);
     }
-    if (filter === filterValues[1]) {
+    if (filter === filterValues[2]) {
       return todos.filter((todo) => todo.completed);
     }
     return todos;
   };
-  const filteredTodos = filterTodos();
+
+  // const filteredTodos = filterTodos(filter, todos);
+
+  const filteredTodos = React.useMemo(
+    () => filterTodos(filter, todos),
+    [filter, todos]
+  );
+
   const addTodo = (inputData) => {
     const newTodo = {
-      id: 'id' + (Date.now() + Math.random()).toString(),
+      id: (Date.now() + Math.random()).toString(),
       text: inputData,
       completed: false,
     };
-    setTodos([...todos, newTodo]);
+    setTodos([newTodo, ...todos]);
   };
 
   const completeAllTodosToggler = () => {
@@ -67,10 +76,11 @@ function App() {
 
   const updateTodo = (id, editInputData) => {
     const updatedTodosArray = todos.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, text: editInputData };
+      if (todo.id !== id) {
+        return todo;
       }
-      return todo;
+
+      return { ...todo, text: editInputData };
     });
     setTodos(updatedTodosArray);
   };
@@ -96,10 +106,12 @@ function App() {
       />
       {Boolean(todos.length) && (
         <TodoFooter
+          filter={filter}
           setFilter={setFilter}
           removeAllCompleted={removeAllCompleted}
           activeTodosCounter={activeTodosCounter}
           filterValues={filterValues}
+          someTodosCompleted={someTodosCompleted}
         />
       )}
     </div>

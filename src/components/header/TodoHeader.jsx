@@ -6,12 +6,12 @@ const TodoHeader = (props) => {
     <div className={styles.todoHeader}>
       <h1 className={styles.todoHeader__header}>Todos</h1>
       <div className={styles.todoHeader__body}>
-        {props.todosCounter === 0 || (
-          <CompleteAllTodosButton
-            completeAllTodosToggler={props.completeAllTodosToggler}
-            allTodosCompleted={props.allTodosCompleted}
-          />
-        )}
+        <CompleteAllTodosButton
+          completeAllTodosToggler={props.completeAllTodosToggler}
+          allTodosCompleted={props.allTodosCompleted}
+          todosCounter={props.todosCounter}
+        />
+
         <Input addTodo={props.addTodo} />
       </div>
     </div>

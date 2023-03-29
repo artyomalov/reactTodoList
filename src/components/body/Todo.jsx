@@ -1,10 +1,25 @@
-import { useState } from 'react';
+import React from 'react';
 import styles from './Todo.module.scss';
 const Todo = (props) => {
-  const [edit, setEdit] = useState(false);
-  const [editInputData, setEditInputData] = useState(props.todoText);
+  const { todo } = props;
+  const [edit, setEdit] = React.useState(false);
+  const [editInputData, setEditInputData] = React.useState(todo.text);
   const onBlurInputHandler = () => {
-    props.updateTodo(props.todoId, editInputData);
+    props.updateTodo(todo.id, editInputData);
+    setEdit(false);
+  };
+
+  const onEnterHandler = (ev) => {
+    if (ev.code === 'Escape') {
+      setEditInputData(todo.text);
+      setEdit(false);
+      return;
+    }
+    if (ev.code !== 'Enter' && ev.code !== 'NumpadEnter') {
+      return;
+    }
+
+    props.updateTodo(todo.id, editInputData);
     setEdit(false);
   };
 
@@ -12,11 +27,11 @@ const Todo = (props) => {
     <div className={styles.todoContainer}>
       <div
         className={styles.completeButton}
-        onClick={() => props.toggleTodoCompleted(props.todoId)}
+        onClick={() => props.toggleTodoCompleted(todo.id)}
       >
         <span
           className={
-            props.todoCompleted
+            todo.completed
               ? styles.buttonCheckMark
               : styles.buttonCheckMark__hidden
           }
@@ -25,8 +40,9 @@ const Todo = (props) => {
       {edit ? (
         <input
           className={styles.editTodoInput}
-          onChange={(e) => setEditInputData(e.target.value)}
+          onChange={(ev) => setEditInputData(ev.target.value)}
           onBlur={onBlurInputHandler}
+          onKeyDown={onEnterHandler}
           type="text"
           value={editInputData}
           autoFocus
@@ -34,16 +50,16 @@ const Todo = (props) => {
       ) : (
         <p
           className={
-            props.todoCompleted ? styles.todoText_completed : styles.todoText
+            todo.completed ? styles.todoText_completed : styles.todoText
           }
           onDoubleClick={() => setEdit(true)}
         >
-          {props.todoText}
+          {todo.text}
         </p>
       )}
       <div
         className={styles.deleteTodoButton}
-        onClick={() => props.deleteTodo(props.todoId)}
+        onClick={() => props.deleteTodo(todo.id)}
       ></div>
     </div>
   );

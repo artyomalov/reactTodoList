@@ -4,11 +4,17 @@ const CompleteAllTodosButton = (props) => {
   return (
     <div
       className={
-        props.allTodosCompleted ? styles.button : styles.button_disabled
+        Boolean(props.todosCounter) ? styles.button : styles.button_disabled
       }
       onClick={props.completeAllTodosToggler}
     >
-      <span className={styles.buttonCheckMark}></span>
+      <span
+        className={
+          props.allTodosCompleted
+            ? styles.buttonCheckMark
+            : styles.buttonCheckMark_disabled
+        }
+      ></span>
     </div>
   );
 };
