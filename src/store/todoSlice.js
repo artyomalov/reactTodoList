@@ -27,13 +27,14 @@ const todoSlice = createSlice({
       );
       state.todos.splice(isDeletedElementIndex, 1);
     },
-    removeAllCompleted: (state) =>
-      state.todos.filter((todo) => !todo.completed),
+    removeAllCompleted: (state) => {
+      state.todos = state.todos.filter((todo) => !todo.completed);
+    },
     setAllTodosUncompleted: (state) => {
       state.todos.map((todo) => (todo.completed = false));
     },
     completeAllTodos: (state) => {
-      state.todos.map((todo) => {
+      state.todos.forEach((todo) => {
         if (todo.completed) {
           return;
         }

@@ -14,11 +14,13 @@ const selectTodos = createSelector(
       todosCounter - activeTodosCounter === todosCounter;
     const someTodosCompleted = todosCounter - activeTodosCounter > 0;
     const calculatedValues = {
+      alltodosCount: todos.length,
       filteredTodos: todos,
       activeTodosCounter,
       todosCounter,
       allTodosCompleted,
       someTodosCompleted,
+      filter,
     };
 
     if (filter === 'active') {

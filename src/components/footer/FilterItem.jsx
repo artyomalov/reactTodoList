@@ -5,14 +5,13 @@ import selectTodos from '../../store/selectors';
 function FilterItem(props) {
   const dispatch = useDispatch();
 
-  const filter = useSelector(selectTodos);
-  const selected = filter === props.filterValue;
+  const todosData = useSelector(selectTodos);
+  const selected = todosData.filter === props.filterValue;
 
   return (
     <p
       className={selected ? styles.filterItem_selected : styles.filterItem}
       onClick={() => {
-        console.log('click');
         dispatch(setFilter(props.filterValue));
       }}
     >
