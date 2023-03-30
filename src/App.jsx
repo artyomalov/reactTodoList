@@ -39,7 +39,9 @@ function App() {
     }
     return calculatedValues;
   };
-
+  console.log(
+    'hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+  );
   // const filterTodos = (todos, filter) => {
   //   if (filter === filterValues[1]) {
   //     return todos.filter((todo) => !todo.completed);
