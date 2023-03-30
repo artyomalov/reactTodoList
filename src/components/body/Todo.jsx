@@ -14,6 +14,11 @@ const Todo = (props) => {
   const dispatch = useDispatch();
 
   const onBlurInputHandler = () => {
+    if (!editInputData.trim()) {
+      setEditInputData(todo.text);
+      setEdit(false);
+      return;
+    }
     dispatch(updateTodo({ id: todo.id, text: editInputData }));
     setEdit(false);
   };
@@ -27,7 +32,11 @@ const Todo = (props) => {
     if (ev.code !== 'Enter' && ev.code !== 'NumpadEnter') {
       return;
     }
-
+    if (!editInputData.trim()) {
+      setEditInputData(todo.text);
+      setEdit(false);
+      return;
+    }
     dispatch(updateTodo({ id: todo.id, text: editInputData }));
     setEdit(false);
   };
