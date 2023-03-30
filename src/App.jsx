@@ -5,7 +5,7 @@ import TodoFooter from './components/footer/TodoFooter';
 import styles from './app.module.scss';
 function App() {
   return (
-    <div className={styles.App}>
+    <div className={styles.appContainer}>
       <TodoHeader />
       <TodoList />
       <TodoFooter />
