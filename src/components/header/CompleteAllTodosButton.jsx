@@ -1,5 +1,9 @@
 import styles from './CompleteAllTodosButton.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  setAllTodosUncompleted,
+  completeAllTodos,
+} from '../../store/todoSlice';
 import selectTodos from '../../store/selectors';
 
 const CompleteAllTodosButton = () => {
@@ -8,19 +12,10 @@ const CompleteAllTodosButton = () => {
 
   const completeAllTodosToggler = () => {
     if (filteredTodosData.allTodosCompleted) {
-      setTodos(todos.map((todo) => ({ ...todo, completed: false })));
+      dispatch(setAllTodosUncompleted());
       return;
     }
-    const completeAllTodos = todos.map((todo) => {
-      if (todo.completed) {
-        return todo;
-      }
-      return {
-        ...todo,
-        completed: !todo.completed,
-      };
-    });
-    setTodos(completeAllTodos);
+    dispatch(completeAllTodos());
   };
 
   return (
@@ -30,7 +25,7 @@ const CompleteAllTodosButton = () => {
           ? styles.button
           : styles.button_disabled
       }
-      onClick={dispatch(completeAllTodosToggler)}
+      onClick={() => dispatch(completeAllTodosToggler)}
     >
       <span
         className={

@@ -10,27 +10,36 @@ const todoSlice = createSlice({
       state.todos.push(action.payload);
     },
     updateTodo: (state, action) => {
-      const updatedTodo = state.todos.find((todo) => {
-        todo.id === action.payload.id;
-      });
+      const updatedTodo = state.todos.find(
+        (todo) => todo.id === action.payload.id
+      );
       updatedTodo.text = action.payload.text;
     },
     toggleTodoCompleted: (state, action) => {
-      const updatedTodo = state.todos.find((todo) => {
-        todo.id === action.payload.id;
-      });
+      const updatedTodo = state.todos.find(
+        (todo) => todo.id === action.payload.id
+      );
       updatedTodo.completed = !updatedTodo.completed;
     },
     deleteTodo: (state, action) => {
-      const isDeletedElementIndex = state.todos.findIndex((todo) => {
-        todo.id === action.payload.id;
-      });
+      const isDeletedElementIndex = state.todos.findIndex(
+        (todo) => todo.id === action.payload.id
+      );
       state.todos.splice(isDeletedElementIndex, 1);
     },
-    removeAllCompleted: (state) => {
-      state.todos.filter((todo) => !todo.completed);
+    removeAllCompleted: (state) =>
+      state.todos.filter((todo) => !todo.completed),
+    setAllTodosUncompleted: (state) => {
+      state.todos.map((todo) => (todo.completed = false));
     },
-    : (state) => {},
+    completeAllTodos: (state) => {
+      state.todos.map((todo) => {
+        if (todo.completed) {
+          return;
+        }
+        todo.completed = !todo.completed;
+      });
+    },
   },
 });
 
@@ -40,6 +49,8 @@ export const {
   toggleTodoCompleted,
   deleteTodo,
   removeAllCompleted,
+  setAllTodosUncompleted,
+  completeAllTodos,
 } = todoSlice.actions;
 export default todoSlice.reducer;
 

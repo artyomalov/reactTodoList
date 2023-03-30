@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import selectTodos from '../../store/selectors';
 
 const Todos = () => {
-  const filteredTodos = useSelector(selectTodos);
+  const filteredTodosData = useSelector(selectTodos);
 
   return (
     <div className={styles.todoList}>
-      {filteredTodos.map((todo) => (
+      {filteredTodosData.filteredTodos.map((todo) => (
         <Todo key={todo.id} todo={todo} />
       ))}
     </div>

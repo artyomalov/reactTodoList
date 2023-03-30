@@ -1,5 +1,6 @@
 import CompleteAllTodosButton from './CompleteAllTodosButton';
 import Input from './Input';
+
 import styles from './TodoHeader.module.scss';
 const TodoHeader = () => {
   return (
@@ -7,7 +8,6 @@ const TodoHeader = () => {
       <h1 className={styles.todoHeader__header}>Todos</h1>
       <div className={styles.todoHeader__body}>
         <CompleteAllTodosButton />
-
         <Input />
       </div>
     </div>

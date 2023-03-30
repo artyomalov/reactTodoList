@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { addTodo } from '../../store/todoSlice';
 import styles from './Input.module.scss';
 
 function Input() {
