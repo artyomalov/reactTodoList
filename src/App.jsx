@@ -66,7 +66,11 @@ function App() {
 
   const completeAllTodosToggler = () => {
     if (filteredTodos.allTodosCompleted) {
-      setTodos(todos.map((todo) => ({ ...todo, completed: false })));
+      const allUncompleted = todos.map((todo) => ({
+        ...todo,
+        completed: false,
+      }));
+      setTodos(allUncompleted);
       return;
     }
     const completeAllTodos = todos.map((todo) => {
@@ -82,7 +86,8 @@ function App() {
   };
 
   const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    const withoutDeletedTodo = todos.filter((todo) => todo.id !== id);
+    setTodos(withoutDeletedTodo);
   };
 
   const toggleTodoCompleted = (id) => {
@@ -107,7 +112,8 @@ function App() {
   };
 
   const removeAllCompleted = () => {
-    setTodos([...todos.filter((todo) => !todo.completed)]);
+    const withoutAllCompleted = todos.filter((todo) => !todo.completed);
+    setTodos(withoutAllCompleted);
   };
 
   return (
