@@ -1,19 +1,23 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './Input.module.scss';
 
-function Input(props) {
+function Input() {
   const [text, setText] = React.useState('');
+  const dispatch = useDispatch();
+
+  const newTodo = {
+    id: (Date.now() + Math.random()).toString(),
+    text,
+    completed: false,
+  };
 
   const addTodoHandler = (ev) => {
     ev.preventDefault();
     if (!text.trim()) {
       return;
     }
-    props.addTodo(text);
-    setText('');
-  };
-
-  const onBlurHandler = () => {
+    dispatch(addTodo(newTodo));
     setText('');
   };
 
@@ -24,7 +28,7 @@ function Input(props) {
         onChange={(ev) => {
           setText(ev.target.value);
         }}
-        onBlur={onBlurHandler}
+        onBlur={addTodoHandler}
         value={text}
         placeholder="What needs to be done"
       />

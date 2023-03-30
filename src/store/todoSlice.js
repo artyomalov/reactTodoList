@@ -27,10 +27,21 @@ const todoSlice = createSlice({
       });
       state.todos.splice(isDeletedElementIndex, 1);
     },
+    removeAllCompleted: (state) => {
+      state.todos.filter((todo) => !todo.completed);
+    },
+    : (state) => {},
   },
 });
 
-[1, 2, 3, 4, 5][(0, 1, 2, 3, 4)];
+export const {
+  addTodo,
+  updateTodo,
+  toggleTodoCompleted,
+  deleteTodo,
+  removeAllCompleted,
+} = todoSlice.actions;
+export default todoSlice.reducer;
 
 // const findTodo = (arr, id) => {
 //   const halfOfArray = arr.slice(0, Math.round(arr.length / 2));

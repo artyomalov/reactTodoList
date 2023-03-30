@@ -1,11 +1,20 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './Todo.module.scss';
+import {
+  updateTodo,
+  toggleTodoCompleted,
+  deleteTodo,
+} from '../../store/todoSlice';
+
 const Todo = (props) => {
   const { todo } = props;
   const [edit, setEdit] = React.useState(false);
   const [editInputData, setEditInputData] = React.useState(todo.text);
+  const dispatch = useDispatch();
+
   const onBlurInputHandler = () => {
-    props.updateTodo(todo.id, editInputData);
+    dispatch(updateTodo({ id: todo.id, text: editInputData }));
     setEdit(false);
   };
 
@@ -19,7 +28,7 @@ const Todo = (props) => {
       return;
     }
 
-    props.updateTodo(todo.id, editInputData);
+    dispatch(updateTodo({ id: todo.id, text: editInputData }));
     setEdit(false);
   };
 
@@ -27,7 +36,7 @@ const Todo = (props) => {
     <div className={styles.todoContainer}>
       <div
         className={styles.completeButton}
-        onClick={() => props.toggleTodoCompleted(todo.id)}
+        onClick={() => dispatch(toggleTodoCompleted({ id: todo.id }))}
       >
         <span
           className={
@@ -59,7 +68,7 @@ const Todo = (props) => {
       )}
       <div
         className={styles.deleteTodoButton}
-        onClick={() => props.deleteTodo(todo.id)}
+        onClick={() => dispatch(deleteTodo({ id: todo.id }))}
       ></div>
     </div>
   );

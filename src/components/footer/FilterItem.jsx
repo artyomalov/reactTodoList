@@ -1,13 +1,17 @@
 import styles from './FilterItem.module.scss';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../../store/filterSlice';
 function FilterItem(props) {
-  const selected = props.filter === props.filterValue;
+  const dispatch = useDispatch();
+
+  const filter = useSelector(state.filter.filter);
+  const selected = filter === props.filterValue;
 
   return (
     <p
       className={selected ? styles.filterItem_selected : styles.filterItem}
       onClick={() => {
-        props.setFilter(props.filterValue);
+        dispatch(setFilter(props.filterValue));
       }}
     >
       {props.filterValue}

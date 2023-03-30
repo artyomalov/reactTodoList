@@ -1,24 +1,24 @@
 import TodoCounter from './TodoCounter';
-// import CompletedRemover from './CompletedRemover';
+import { useSelector, useDispatch } from 'react-redux';
 import Filter from './Filter';
+import selectTodos from '../../store/selectors';
+import { removeAllCompleted } from '../../store/todoSlice';
 import styles from './TodoFooter.module.scss';
 
 const TodoFooter = (props) => {
+  const filteredTodosData = useSelector(selectTodos);
+  const dispatch = useDispatch();
   return (
     <div className={styles.todoFooter}>
-      <TodoCounter activeTodosCounter={props.activeTodosCounter} />
-      <Filter
-        setFilter={props.setFilter}
-        filterValues={props.filterValues}
-        filter={props.filter}
-      />
+      <TodoCounter activeTodosCounter={filteredTodosData.activeTodosCounter} />
+      <Filter />
       <div
         className={
-          props.someTodosCompleted
+          filteredTodosData.someTodosCompleted
             ? styles.completedRemover
             : styles.completedRemover_hidden
         }
-        onClick={props.removeAllCompleted}
+        onClick={() => dispatch(removeAllCompleted)}
       >
         Clear completted
       </div>
