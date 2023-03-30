@@ -10,11 +10,6 @@ function App() {
   const [todos, setTodos] = React.useState([]);
   const [filter, setFilter] = React.useState(filterValues[0]);
 
-  // const activeTodosCounter = todos.filter((todo) => !todo.completed).length;
-  // const todosCounter = todos.length;
-  // const allTodosCompleted = todosCounter - activeTodosCounter === todosCounter;
-  // const someTodosCompleted = todosCounter - activeTodosCounter > 0;
-
   const todosHandling = (todos, filter) => {
     const activeTodos = todos.filter((todo) => !todo.completed);
     const activeTodosCounter = activeTodos.length;
@@ -39,9 +34,7 @@ function App() {
     }
     return calculatedValues;
   };
-  console.log(
-    'hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-  );
+
   // const filterTodos = (todos, filter) => {
   //   if (filter === filterValues[1]) {
   //     return todos.filter((todo) => !todo.completed);
