@@ -9,28 +9,49 @@ const filterValues = ['all', 'active', 'completed'];
 function App() {
   const [todos, setTodos] = React.useState([]);
   const [filter, setFilter] = React.useState(filterValues[0]);
-  // const [buttonClick, setButtonClick] = React.useState(0);
 
-  const activeTodosCounter = todos.filter((todo) => !todo.completed).length;
-  const todosCounter = todos.length;
-  const allTodosCompleted = todosCounter - activeTodosCounter === todosCounter;
-  const someTodosCompleted = todosCounter - activeTodosCounter > 0;
+  // const activeTodosCounter = todos.filter((todo) => !todo.completed).length;
+  // const todosCounter = todos.length;
+  // const allTodosCompleted = todosCounter - activeTodosCounter === todosCounter;
+  // const someTodosCompleted = todosCounter - activeTodosCounter > 0;
 
-  const filterTodos = (filter, todos) => {
-    // console.log('Call filter todos');
+  const todosHandling = (todos, filter) => {
+    const activeTodos = todos.filter((todo) => !todo.completed);
+    const activeTodosCounter = activeTodos.length;
+    const todosCounter = todos.length;
+    const allTodosCompleted =
+      todosCounter - activeTodosCounter === todosCounter;
+    const someTodosCompleted = todosCounter - activeTodosCounter > 0;
+    const calculatedValues = {
+      filteredTodos: todos,
+      activeTodosCounter,
+      todosCounter,
+      allTodosCompleted,
+      someTodosCompleted,
+    };
+
     if (filter === filterValues[1]) {
-      return todos.filter((todo) => !todo.completed);
+      calculatedValues.filteredTodos = activeTodos;
     }
     if (filter === filterValues[2]) {
-      return todos.filter((todo) => todo.completed);
+      const completedTodos = todos.filter((todo) => todo.completed);
+      calculatedValues.filteredTodos = completedTodos;
     }
-    return todos;
+    return calculatedValues;
   };
 
-  // const filteredTodos = filterTodos(filter, todos);
+  // const filterTodos = (todos, filter) => {
+  //   if (filter === filterValues[1]) {
+  //     return todos.filter((todo) => !todo.completed);
+  //   }
+  //   if (filter === filterValues[2]) {
+  //     return todos.filter((todo) => todo.completed);
+  //   }
+  //   return todos;
+  // };
 
   const filteredTodos = React.useMemo(
-    () => filterTodos(filter, todos),
+    () => todosHandling(todos, filter),
     [filter, todos]
   );
 
@@ -44,7 +65,7 @@ function App() {
   };
 
   const completeAllTodosToggler = () => {
-    if (allTodosCompleted) {
+    if (filteredTodos.allTodosCompleted) {
       setTodos(todos.map((todo) => ({ ...todo, completed: false })));
       return;
     }
@@ -94,12 +115,12 @@ function App() {
       <TodoHeader
         completeAllTodosToggler={completeAllTodosToggler}
         addTodo={addTodo}
-        todosCounter={todosCounter}
-        allTodosCompleted={allTodosCompleted}
+        todosCounter={filteredTodos.todosCounter}
+        allTodosCompleted={filteredTodos.allTodosCompleted}
       />
 
       <TodoList
-        filteredTodos={filteredTodos}
+        filteredTodos={filteredTodos.filteredTodos}
         deleteTodo={deleteTodo}
         toggleTodoCompleted={toggleTodoCompleted}
         updateTodo={updateTodo}
@@ -109,9 +130,9 @@ function App() {
           filter={filter}
           setFilter={setFilter}
           removeAllCompleted={removeAllCompleted}
-          activeTodosCounter={activeTodosCounter}
+          activeTodosCounter={filteredTodos.activeTodosCounter}
           filterValues={filterValues}
-          someTodosCompleted={someTodosCompleted}
+          someTodosCompleted={filteredTodos.someTodosCompleted}
         />
       )}
     </div>

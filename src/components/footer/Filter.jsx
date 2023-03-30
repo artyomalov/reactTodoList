@@ -7,7 +7,7 @@ const Filter = (props) => {
       <div className={styles.filter}>
         {props.filterValues.map((filterValue, index) => (
           <FilterItem
-            key={index} //можно ли в данном случае использовать индекс элемента в качестве ключа?
+            key={index}
             setFilter={props.setFilter}
             filter={props.filter}
             filterValue={filterValue}

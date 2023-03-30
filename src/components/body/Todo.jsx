@@ -9,7 +9,7 @@ const Todo = (props) => {
     setEdit(false);
   };
 
-  const onEnterHandler = (ev) => {
+  const onKeyDowmHandler = (ev) => {
     if (ev.code === 'Escape') {
       setEditInputData(todo.text);
       setEdit(false);
@@ -42,7 +42,7 @@ const Todo = (props) => {
           className={styles.editTodoInput}
           onChange={(ev) => setEditInputData(ev.target.value)}
           onBlur={onBlurInputHandler}
-          onKeyDown={onEnterHandler}
+          onKeyDown={onKeyDowmHandler}
           type="text"
           value={editInputData}
           autoFocus

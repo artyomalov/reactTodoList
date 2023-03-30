@@ -27,7 +27,6 @@ function Input(props) {
         onBlur={onBlurHandler}
         value={text}
         placeholder="What needs to be done"
-        type="text"
       />
     </form>
   );
