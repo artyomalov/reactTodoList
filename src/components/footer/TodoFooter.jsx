@@ -8,6 +8,11 @@ import styles from './TodoFooter.module.scss';
 const TodoFooter = () => {
   const filteredTodosData = useSelector(selectTodos);
   const dispatch = useDispatch();
+
+  const clearAllCompletedHandler = () => {
+    dispatch(removeAllCompleted());
+  };
+
   return (
     Boolean(filteredTodosData.todosCounter) && (
       <div className={styles.todoFooter}>
@@ -21,7 +26,7 @@ const TodoFooter = () => {
               ? styles.completedRemover
               : styles.completedRemover_hidden
           }
-          onClick={() => dispatch(removeAllCompleted())}
+          onClick={clearAllCompletedHandler}
         >
           Clear completted
         </div>

@@ -4,6 +4,7 @@ const todoSlice = createSlice({
   name: 'todos',
   initialState: {
     todos: [],
+    filter: 'all',
   },
   reducers: {
     addTodo: (state, action) => {
@@ -41,6 +42,31 @@ const todoSlice = createSlice({
         todo.completed = !todo.completed;
       });
     },
+
+    completeAllTodosToggler: (state) => {
+      const activeTodosCount = state.todos.filter(
+        (todo) => !todo.completed
+      ).length;
+      console.log(activeTodosCount);
+      const allTodosCompleted = activeTodosCount === 0;
+      if (allTodosCompleted) {
+        state.todos.forEach((todo) => {
+          todo.completed = false;
+        });
+        return;
+      }
+
+      state.todos.forEach((todo) => {
+        if (todo.completed) {
+          return;
+        }
+        todo.completed = !todo.completed;
+      });
+    },
+
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
   },
 });
 
@@ -53,15 +79,7 @@ export const {
   removeAllCompleted,
   setAllTodosUncompleted,
   completeAllTodos,
+  setFilter,
+  completeAllTodosToggler,
 } = actions;
 export default reducer;
-
-// const findTodo = (arr, id) => {
-//   const halfOfArray = arr.slice(0, Math.round(arr.length / 2));
-//   let findedEl = halfOfArray.find((el)=>el.id===id)
-//   if(findedEl===undefined) {
-//     secondHalfOfArray = arr.slice(Math.round(arr.length/2, arrLength))
-//     return findedEl = findTodo(secondHalfOfArray, id)
-//   }
-//   return findedEl
-// };

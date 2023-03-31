@@ -13,6 +13,9 @@ const Todo = (props) => {
   const [editInputData, setEditInputData] = React.useState(todo.text);
   const dispatch = useDispatch();
 
+  const toggleTodoCompletedHandler = () =>
+    dispatch(toggleTodoCompleted({ id: todo.id }));
+
   const onBlurInputHandler = () => {
     if (!editInputData.trim()) {
       setEditInputData(todo.text);
@@ -41,11 +44,16 @@ const Todo = (props) => {
     setEdit(false);
   };
 
+  const setInputDataHandler = (ev) => setEditInputData(ev.target.value);
+  const setEditHandler = () => setEdit(true);
+
+  const deleteTodoHandler = () => dispatch(deleteTodo({ id: todo.id }));
+
   return (
     <div className={styles.todoContainer}>
       <div
         className={styles.completeButton}
-        onClick={() => dispatch(toggleTodoCompleted({ id: todo.id }))}
+        onClick={toggleTodoCompletedHandler}
       >
         <span
           className={
@@ -58,7 +66,7 @@ const Todo = (props) => {
       {edit ? (
         <input
           className={styles.editTodoInput}
-          onChange={(ev) => setEditInputData(ev.target.value)}
+          onChange={setInputDataHandler}
           onBlur={onBlurInputHandler}
           onKeyDown={onKeyDowmHandler}
           type="text"
@@ -70,14 +78,14 @@ const Todo = (props) => {
           className={
             todo.completed ? styles.todoText_completed : styles.todoText
           }
-          onDoubleClick={() => setEdit(true)}
+          onDoubleClick={setEditHandler}
         >
           {todo.text}
         </p>
       )}
       <div
         className={styles.deleteTodoButton}
-        onClick={() => dispatch(deleteTodo({ id: todo.id }))}
+        onClick={deleteTodoHandler}
       ></div>
     </div>
   );

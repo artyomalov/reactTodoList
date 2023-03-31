@@ -1,19 +1,18 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 const selectAllTodos = (state) => state.todos.todos;
-const selectFilter = (state) => state.filter.filter;
+const selectFilter = (state) => state.todos.filter;
 
 const selectTodos = createSelector(
   selectAllTodos,
   selectFilter,
   (todos, filter) => {
+    const todosCounter = todos.length;
     const activeTodos = todos.filter((todo) => !todo.completed);
     const activeTodosCounter = activeTodos.length;
-    const todosCounter = todos.length;
     const allTodosCompleted = activeTodosCounter === 0;
     const someTodosCompleted = todosCounter - activeTodosCounter > 0;
     const calculatedValues = {
-      alltodosCount: todos.length,
       filteredTodos: todos,
       activeTodosCounter,
       todosCounter,
