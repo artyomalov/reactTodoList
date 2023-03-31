@@ -44,6 +44,7 @@ const todoSlice = createSlice({
   },
 });
 
+const { actions, reducer } = todoSlice;
 export const {
   addTodo,
   updateTodo,
@@ -52,8 +53,8 @@ export const {
   removeAllCompleted,
   setAllTodosUncompleted,
   completeAllTodos,
-} = todoSlice.actions;
-export default todoSlice.reducer;
+} = actions;
+export default reducer;
 
 // const findTodo = (arr, id) => {
 //   const halfOfArray = arr.slice(0, Math.round(arr.length / 2));

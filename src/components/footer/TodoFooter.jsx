@@ -9,7 +9,7 @@ const TodoFooter = () => {
   const filteredTodosData = useSelector(selectTodos);
   const dispatch = useDispatch();
   return (
-    Boolean(filteredTodosData.alltodosCount) && (
+    Boolean(filteredTodosData.todosCounter) && (
       <div className={styles.todoFooter}>
         <TodoCounter
           activeTodosCounter={filteredTodosData.activeTodosCounter}

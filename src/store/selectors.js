@@ -10,8 +10,7 @@ const selectTodos = createSelector(
     const activeTodos = todos.filter((todo) => !todo.completed);
     const activeTodosCounter = activeTodos.length;
     const todosCounter = todos.length;
-    const allTodosCompleted =
-      todosCounter - activeTodosCounter === todosCounter;
+    const allTodosCompleted = activeTodosCounter === 0;
     const someTodosCompleted = todosCounter - activeTodosCounter > 0;
     const calculatedValues = {
       alltodosCount: todos.length,
@@ -35,3 +34,6 @@ const selectTodos = createSelector(
 );
 
 export default selectTodos;
+
+// const allTodosCompleted =
+// todosCounter - activeTodosCounter === todosCounter;
