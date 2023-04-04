@@ -1,11 +1,18 @@
+import React from 'react';
 import styles from './FilterItem.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+
 import { setFilter } from '../../store/todoSlice';
 import selectTodos from '../../store/selectors';
-function FilterItem(props) {
-  const dispatch = useDispatch();
 
-  const todosData = useSelector(selectTodos);
+type filterProps = {
+  filterValue: string;
+};
+
+const FilterItem: React.FC<filterProps> = (props: filterProps) => {
+  const dispatch = useAppDispatch();
+
+  const todosData = useAppSelector(selectTodos);
   const selected = todosData.filter === props.filterValue;
   const setFilterHandler = () => {
     dispatch(setFilter(props.filterValue));
@@ -19,6 +26,6 @@ function FilterItem(props) {
       {props.filterValue}
     </p>
   );
-}
+};
 
 export default FilterItem;

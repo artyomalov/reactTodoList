@@ -1,20 +1,26 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 import styles from './Todo.module.scss';
+import { todoType } from '../../types/todoType';
 import {
   updateTodo,
   toggleTodoCompleted,
   deleteTodo,
 } from '../../store/todoSlice';
 
-const Todo = (props) => {
-  const { todo } = props;
-  const [edit, setEdit] = React.useState(false);
-  const [editInputData, setEditInputData] = React.useState(todo.text);
-  const dispatch = useDispatch();
+type todoProps = {
+  todo: todoType;
+};
+
+const Todo: React.FC<todoProps> = (props: todoProps) => {
+  const todo: todoType = props.todo; //нужно ли типизировать здесь, если типизация была на уровне пропсов в Todo лист в map?
+
+  const [edit, setEdit] = React.useState<boolean>(false);
+  const [editInputData, setEditInputData] = React.useState<string>(todo.text);
+  const dispatch = useAppDispatch();
 
   const toggleTodoCompletedHandler = () =>
-    dispatch(toggleTodoCompleted({ id: todo.id }));
+    dispatch(toggleTodoCompleted(todo.id));
 
   const onBlurInputHandler = () => {
     if (!editInputData.trim()) {
@@ -26,7 +32,7 @@ const Todo = (props) => {
     setEdit(false);
   };
 
-  const onKeyDowmHandler = (ev) => {
+  const onKeyDowmHandler = (ev: React.KeyboardEvent<HTMLInputElement>) => {
     if (ev.code === 'Escape') {
       setEditInputData(todo.text);
       setEdit(false);
@@ -44,10 +50,11 @@ const Todo = (props) => {
     setEdit(false);
   };
 
-  const setInputDataHandler = (ev) => setEditInputData(ev.target.value);
+  const setInputDataHandler = (ev: React.ChangeEvent<HTMLInputElement>) =>
+    setEditInputData(ev.target.value);
   const setEditHandler = () => setEdit(true);
 
-  const deleteTodoHandler = () => dispatch(deleteTodo({ id: todo.id }));
+  const deleteTodoHandler = () => dispatch(deleteTodo(todo.id));
 
   return (
     <div className={styles.todoContainer}>

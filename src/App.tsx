@@ -3,7 +3,7 @@ import TodoList from './components/body/TodoList';
 import TodoHeader from './components/header/TodoHeader';
 import TodoFooter from './components/footer/TodoFooter';
 import styles from './app.module.scss';
-function App() {
+const App: React.FC = () => {
   return (
     <div className={styles.appContainer}>
       <TodoHeader />
@@ -11,6 +11,6 @@ function App() {
       <TodoFooter />
     </div>
   );
-}
+};
 
 export default App;

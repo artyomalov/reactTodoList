@@ -1,30 +1,50 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { todoType } from '../types/todoType';
+
+type todosState = {
+  todos: Array<todoType>;
+  filter: string;
+};
+
+const initialState: todosState = {
+  todos: [],
+  filter: 'all',
+};
+
+type updateTodoPayloadType = {
+  id: string;
+  text: string;
+};
 
 const todoSlice = createSlice({
   name: 'todos',
-  initialState: {
-    todos: [],
-    filter: 'all',
-  },
+  initialState,
   reducers: {
-    addTodo: (state, action) => {
+    addTodo: (state, action: PayloadAction<todoType>) => {
       state.todos.push(action.payload);
     },
-    updateTodo: (state, action) => {
-      const updatedTodo = state.todos.find(
-        (todo) => todo.id === action.payload.id
+
+    updateTodo: (state, action: PayloadAction<updateTodoPayloadType>) => {
+      const updatedTodo: todoType | undefined = state.todos.find(
+        (todo: todoType) => todo.id === action.payload.id
       );
-      updatedTodo.text = action.payload.text;
+      if (updatedTodo) {
+        updatedTodo.text = action.payload.text;
+      }
     },
-    toggleTodoCompleted: (state, action) => {
+
+    toggleTodoCompleted: (state, action: PayloadAction<string>) => {
       const updatedTodo = state.todos.find(
-        (todo) => todo.id === action.payload.id
+        (todo) => todo.id === action.payload
       );
-      updatedTodo.completed = !updatedTodo.completed;
+      if (updatedTodo) {
+        updatedTodo.completed = !updatedTodo.completed;
+      }
     },
-    deleteTodo: (state, action) => {
+
+    deleteTodo: (state, action: PayloadAction<string>) => {
       const isDeletedElementIndex = state.todos.findIndex(
-        (todo) => todo.id === action.payload.id
+        (todo) => todo.id === action.payload
       );
       state.todos.splice(isDeletedElementIndex, 1);
     },
@@ -83,3 +103,5 @@ export const {
   completeAllTodosToggler,
 } = actions;
 export default reducer;
+
+export type { todosState };

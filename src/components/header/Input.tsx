@@ -1,19 +1,18 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 import { addTodo } from '../../store/todoSlice';
+import { todoType } from '../../types/todoType';
 import styles from './Input.module.scss';
 
 function Input() {
   const [text, setText] = React.useState('');
-  const dispatch = useDispatch();
-
-  const addTodoHandler = (ev) => {
-    ev.preventDefault();
+  const dispatch = useAppDispatch();
+  const addTodoHandler = () => {
     if (!text.trim()) {
       return;
     }
 
-    const newTodo = {
+    const newTodo: todoType = {
       id: (Date.now() + Math.random()).toString(),
       text,
       completed: false,
@@ -23,16 +22,25 @@ function Input() {
     setText('');
   };
 
-  const onChangeHandler = (ev) => {
+  const addTodoHandlerForm = (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    addTodoHandler();
+  };
+
+  const addTodoHandlerInput = () => {
+    addTodoHandler();
+  };
+
+  const onChangeHandler = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setText(ev.target.value);
   };
 
   return (
-    <form className={styles.form} onSubmit={addTodoHandler}>
+    <form className={styles.form} onSubmit={addTodoHandlerForm}>
       <input
         className={styles.input}
         onChange={onChangeHandler}
-        onBlur={addTodoHandler}
+        onBlur={addTodoHandlerInput}
         value={text}
         placeholder="What needs to be done"
       />

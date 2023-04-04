@@ -1,11 +1,12 @@
+import React from 'react';
 import styles from './CompleteAllTodosButton.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { completeAllTodosToggler } from '../../store/todoSlice';
 import selectTodos from '../../store/selectors';
 
-const CompleteAllTodosButton = () => {
-  const filteredTodosData = useSelector(selectTodos);
-  const dispatch = useDispatch();
+const CompleteAllTodosButton: React.FC = () => {
+  const filteredTodosData = useAppSelector(selectTodos);
+  const dispatch = useAppDispatch();
 
   const togglecompleteAllTodos = () => {
     dispatch(completeAllTodosToggler());
