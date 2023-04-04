@@ -1,0 +1,14 @@
+@import '../commonStyles.scss';
+.todoCounter {
+  width: 90px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+@media (max-width: $mediaMaxWidth) {
+  .todoCounter {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 3%;
+  }
+}
