@@ -3,13 +3,14 @@ import { todosData } from '../types/todoDataType';
 import { todoType } from '../types/todoType';
 import { RootState } from '.';
 
-// const filteredHeroes = createSelector<[(state: RootState) => string, (state: RootState) => IHeroesList[]], IHeroesList[]>
+type selectAllTodosType = (state: RootState) => todoType[];
+type selectFilterType = (state: RootState) => string;
 
 const selectAllTodos = (state: RootState) => state.todos.todos;
 const selectFilter = (state: RootState) => state.todos.filter;
 
 const selectTodos = createSelector<
-  [(state: RootState) => todoType[], (state: RootState) => string],
+  [selectAllTodosType, selectFilterType],
   todosData
 >(selectAllTodos, selectFilter, (todos, filter) => {
   const todosCounter = todos.length;

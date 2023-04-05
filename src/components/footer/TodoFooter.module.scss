@@ -11,6 +11,10 @@
   padding: 3%;
 }
 
+.todoFooter_hidden {
+  display: none;
+}
+
 .completedRemover,
 .completedRemover_hidden {
   display: inline-block;
