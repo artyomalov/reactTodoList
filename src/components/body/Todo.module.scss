@@ -19,7 +19,7 @@
   cursor: pointer;
 }
 
-.buttonCheckMark__hidden,
+.buttonCheckMark_hidden,
 .buttonCheckMark {
   display: inline-block;
   opacity: 1;
@@ -32,7 +32,7 @@
   scale: 1;
 }
 
-.buttonCheckMark__hidden {
+.buttonCheckMark_hidden {
   scale: 0;
   opacity: 0;
   transition: all $timing linear;

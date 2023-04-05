@@ -4,9 +4,10 @@ import styles from './TodoList.module.scss';
 import { useAppSelector } from '../../store/hooks';
 import selectTodos from '../../store/selectors';
 import { todoType } from '../../types/todoType';
+import { todosData } from '../../types/todoDataType';
 
 const Todos: React.FC = () => {
-  const filteredTodosData = useAppSelector(selectTodos);
+  const filteredTodosData: todosData = useAppSelector(selectTodos);
 
   return (
     <div className={styles.todoList}>

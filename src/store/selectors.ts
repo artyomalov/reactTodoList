@@ -12,13 +12,14 @@ const selectFilter = (state: RootState) => state.todos.filter;
 const selectTodos = createSelector<
   [selectAllTodosType, selectFilterType],
   todosData
->(selectAllTodos, selectFilter, (todos, filter) => {
-  const todosCounter = todos.length;
-  const activeTodos = todos.filter((todo) => !todo.completed);
-  const activeTodosCounter = activeTodos.length;
-  const allTodosCompleted = activeTodosCounter === 0;
-  const someTodosCompleted = todosCounter - activeTodosCounter > 0;
-  const calculatedValues = {
+>([selectAllTodos, selectFilter], (todos, filter) => {
+  const todosCounter: number = todos.length;
+  const activeTodos: Array<todoType> = todos.filter((todo) => !todo.completed);
+  const activeTodosCounter: number = activeTodos.length;
+  const allTodosCompleted: boolean = activeTodosCounter === 0;
+  const someTodosCompleted: boolean = todosCounter - activeTodosCounter > 0;
+  //если типизация в generic нужно ли типизировать calculated values?
+  const calculatedValues: todosData = {
     filteredTodos: todos,
     activeTodosCounter,
     todosCounter,

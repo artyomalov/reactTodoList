@@ -3,9 +3,10 @@ import styles from './CompleteAllTodosButton.module.scss';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { completeAllTodosToggler } from '../../store/todoSlice';
 import selectTodos from '../../store/selectors';
+import { todosData } from '../../types/todoDataType';
 
 const CompleteAllTodosButton: React.FC = () => {
-  const filteredTodosData = useAppSelector(selectTodos);
+  const filteredTodosData: todosData = useAppSelector(selectTodos);
   const dispatch = useAppDispatch();
 
   const togglecompleteAllTodos = () => {

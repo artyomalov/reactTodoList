@@ -34,7 +34,7 @@ const todoSlice = createSlice({
     },
 
     toggleTodoCompleted: (state, action: PayloadAction<string>) => {
-      const updatedTodo = state.todos.find(
+      const updatedTodo: todoType | undefined = state.todos.find(
         (todo) => todo.id === action.payload
       );
       if (updatedTodo) {
@@ -67,7 +67,6 @@ const todoSlice = createSlice({
       const activeTodosCount = state.todos.filter(
         (todo) => !todo.completed
       ).length;
-      console.log(activeTodosCount);
       const allTodosCompleted = activeTodosCount === 0;
       if (allTodosCompleted) {
         state.todos.forEach((todo) => {
@@ -84,7 +83,7 @@ const todoSlice = createSlice({
       });
     },
 
-    setFilter: (state, action) => {
+    setFilter: (state, action: PayloadAction<string>) => {
       state.filter = action.payload;
     },
   },

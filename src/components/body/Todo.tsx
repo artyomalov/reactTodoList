@@ -66,7 +66,7 @@ const Todo: React.FC<todoProps> = (props: todoProps) => {
           className={
             todo.completed
               ? styles.buttonCheckMark
-              : styles.buttonCheckMark__hidden
+              : styles.buttonCheckMark_hidden
           }
         ></span>
       </div>
