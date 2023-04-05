@@ -7,6 +7,13 @@ import styles from './Input.module.scss';
 function Input() {
   const [text, setText] = React.useState('');
   const dispatch = useAppDispatch();
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (!inputRef.current) throw new Error('input ref is not assigned');
+    inputRef.current.focus();
+  }, []);
+
   const addTodoHandler = () => {
     if (!text.trim()) {
       return;
@@ -38,6 +45,7 @@ function Input() {
   return (
     <form className={styles.form} onSubmit={addTodoHandlerForm}>
       <input
+        ref={inputRef}
         className={styles.input}
         onChange={onChangeHandler}
         onBlur={addTodoHandlerInput}
