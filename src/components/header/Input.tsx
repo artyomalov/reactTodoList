@@ -4,7 +4,7 @@ import { addTodo } from '../../store/todoSlice';
 import { todoType } from '../../types/todoType';
 import styles from './Input.module.scss';
 
-function Input() {
+const Input: React.FC = () => {
   const [text, setText] = React.useState('');
   const dispatch = useAppDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -54,6 +54,6 @@ function Input() {
       />
     </form>
   );
-}
+};
 
 export default Input;
