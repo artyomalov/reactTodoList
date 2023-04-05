@@ -2,9 +2,23 @@ import React from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { addTodo } from '../../store/todoSlice';
 import { todoType } from '../../types/todoType';
-import styles from './Input.module.scss';
+import styled from 'styled-components';
 
-function Input() {
+const InputForm = styled.form`
+  flex-grow: 0.9;
+`;
+
+const InputInput = styled.input`
+  height: 50px;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 20px;
+  vertical-align: middle;
+  padding-left: 2px;
+`;
+
+const Input: React.FC = () => {
   const [text, setText] = React.useState('');
   const dispatch = useAppDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -43,17 +57,16 @@ function Input() {
   };
 
   return (
-    <form className={styles.form} onSubmit={addTodoHandlerForm}>
-      <input
+    <InputForm onSubmit={addTodoHandlerForm}>
+      <InputInput
         ref={inputRef}
-        className={styles.input}
         onChange={onChangeHandler}
         onBlur={addTodoHandlerInput}
         value={text}
         placeholder="What needs to be done"
       />
-    </form>
+    </InputForm>
   );
-}
+};
 
 export default Input;
