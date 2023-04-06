@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import commonStyles from '../commonStyles';
 
 const TodoCounterCounter = styled.div`
   width: 90px;
   height: 18px;
   vertical-align: middle;
 
-  @media (max-width: ${commonStyles.mediaMaxWidth}) {
+  @media (max-width: ${props=>props.theme.mediaMaxWidth}) {
     margin-top: 10px;
     margin-bottom: 10px;
     padding-left: 3%;

@@ -5,12 +5,11 @@ import selectTodos from '../../store/selectors';
 import { todoType } from '../../types/todoType';
 import { todosData } from '../../types/todoDataType';
 import styled from 'styled-components';
-import commonStyles from '../commonStyles';
 
 const TodosTodoList = styled.div`
-  max-width: ${commonStyles.containerWidth};
+  max-width: ${props => props.theme.containerWidth};
   width: 100%;
-  background-color: ${commonStyles.containerColor};
+  background-color: ${props => props.theme.containerColor};
   height: fit-content;
   display: flex;
   flex-direction: column;

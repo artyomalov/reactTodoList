@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const AppContainer = styled.div`
   max-width: 550px;
   margin: 0 auto;
-`
+`;
 
 const App: React.FC = () => {
   return (

@@ -3,7 +3,6 @@ import { useAppDispatch } from '../../store/hooks';
 import { updateTodo, toggleTodoCompleted, deleteTodo } from '../../store/todoSlice';
 import { todoType } from '../../types/todoType';
 import styled from 'styled-components';
-import commonStyles from '../commonStyles';
 
 const TodoTodoContainer = styled.div`
   width: 100%;
@@ -11,7 +10,7 @@ const TodoTodoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 2px solid ${commonStyles.backgroundColor};
+  border-top: 2px solid ${props=>props.theme.backgroundColor};
   padding: 3%;
 `;
 
@@ -19,7 +18,7 @@ const TodoCompleteButton = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid ${commonStyles.backgroundColor};
+  border: 2px solid ${props=>props.theme.backgroundColor};
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -34,11 +33,11 @@ const TodoButtonCheckMark = styled.span<todoCompletedType>`
   display: inline-block;
   width: 9px;
   height: 9px;
-  border: solid ${commonStyles.checkColor};
+  border: solid ${props=>props.theme.checkColor};
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   margin-bottom: 2px;
-  transition: ${commonStyles.transitionStyle};
+  transition: ${props=>props.theme.transitionStyle};
   opacity: ${(props) => (props.completed ? '1' : '0')};
 `;
 
@@ -88,7 +87,7 @@ const TodoDeleteTodoButton = styled.div`
     position: absolute;
     top: ${deleteButtonProps.top};
     right: ${deleteButtonProps.right};
-    transition: ${commonStyles.transitionStyle};
+    transition: ${props=>props.theme.transitionStyle};
   }
   &::after {
     transform: rotate(-45deg);
@@ -173,6 +172,7 @@ const Todo: React.FC<todoProps> = (props: todoProps) => {
           {todo.text}
         </TodoTodoText>
       )}
+      
       <TodoDeleteTodoButton
         onClick={deleteTodoHandler}
       ></TodoDeleteTodoButton>

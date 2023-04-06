@@ -1,15 +1,14 @@
 import React from 'react';
 import FilterItem from './FilterItem';
 import styled from 'styled-components';
-import commonStyles from '../commonStyles';
 
 const FilterFilterContainer = styled.div`
   width: 30%;
   height: 18px;
-  @media (max-width: ${commonStyles.mediaMaxWidth}) {
+  @media (max-width: ${props=>props.theme.mediaMaxWidth}) {
     width: 100%;
     height: 30px;
-    border-top: 2px solid ${commonStyles.backgroundColor};
+    border-top: 2px solid ${props=>props.theme.backgroundColor};
     padding-top: 10px;
     padding-left: 3%;
     margin-bottom: 10px;
@@ -21,7 +20,7 @@ const FilterFilter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: ${commonStyles.mediaMaxWidth}) {
+  @media (max-width: ${props=>props.theme.mediaMaxWidth}) {
     margin: 0 0;
     width: 50%;
   }

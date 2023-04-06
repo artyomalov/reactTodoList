@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { setFilter } from '../../store/todoSlice';
 import selectTodos from '../../store/selectors';
 import styled from 'styled-components';
-import commonStyles from '../commonStyles';
 
 type FitlerItmeElementType = {
   selected: boolean;
@@ -14,10 +13,10 @@ const FilterItemElement = styled.p<FitlerItmeElementType>`
   height: 18px;
   background: none;
   border: none;
-  transition: ${commonStyles.transitionStyle};
+  transition: ${props => props.theme.transitionStyle};
   cursor: ${(props) => (props.selected ? 'not-allowed' : 'pointer')};
   outline: ${(props) =>
-    props.selected ? `2px solid ${commonStyles.checkColor}` : ''};
+    props.selected ? `2px solid ${props.theme.checkColor}` : ''};
   outline-offset: ${(props) => (props.selected ? '2px' : '')};
 
   &:hover {

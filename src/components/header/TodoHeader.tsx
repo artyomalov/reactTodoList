@@ -2,15 +2,14 @@ import React from 'react';
 import CompleteAllTodosButton from './CompleteAllTodosButton';
 import Input from './Input';
 import styled from 'styled-components';
-import commonStyles from '../commonStyles';
 
 const TodoHeaderTodoHeader = styled.div`
-  max-width: ${commonStyles.containerWidth};
+  max-width: ${props => props.theme.containerWidth};
   width: 100%;
   height: 150px;
-  background-color: ${commonStyles.containerColor};
+  background-color: ${props => props.theme.containerColor};
   margin-top: 30px;
-  @media (max-width: ${commonStyles.mediaMaxWidth}) {
+  @media (max-width: ${props => props.theme.mediaMaxWidth}) {
     .todoHeader {
       margin-top: 0;
     }

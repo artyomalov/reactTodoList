@@ -6,7 +6,6 @@ import selectTodos from '../../store/selectors';
 import { removeAllCompleted } from '../../store/todoSlice';
 import { todosData } from '../../types/todoDataType';
 import styled from 'styled-components';
-import commonStyles from '../commonStyles';
 
 type todoFooterContainerType = {
   haveTodos: boolean;
@@ -17,13 +16,13 @@ const TodoFooterContainer = styled.div<todoFooterContainerType>`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: ${commonStyles.containerWidth};
+  max-width: ${props => props.theme.containerWidth};
   height: 50px;
-  background-color: ${commonStyles.containerColor};
-  border-top: 2px solid ${commonStyles.backgroundColor};
+  background-color: ${props => props.theme.containerColor};
+  border-top: 2px solid ${props => props.theme.backgroundColor};
   padding: 3%;
-  @media (max-width: ${commonStyles.mediaMaxWidth}) {
-    display: flex;
+  @media (max-width: ${props => props.theme.mediaMaxWidth}) {
+    display: ${(props) => (props.haveTodos ? 'flex' : 'none')};
     flex-direction: column;
     height: fit-content;
     align-items: flex-start;
@@ -42,22 +41,22 @@ const TodoFooterCompletedRemover = styled.div<todoFooterCompletedRemoverType>`
   height: 18px;
   background: none;
   border: none;
-  transition: ${commonStyles.transitionStyle};
+  transition: ${props => props.theme.transitionStyle};
   cursor: pointer;
   opacity: ${(props) => (props.haveCompletedTodos ? '1' : '0')};
   &:hover {
     color: rgb(175, 0, 0);
   }
-  @media (max-width: ${commonStyles.mediaMaxWidth}) {
+  @media (max-width: ${props => props.theme.mediaMaxWidth}) {
     width: 100%;
     height: 42px;
-    border-top: 2px solid ${commonStyles.backgroundColor};
+    border-top: 2px solid ${props => props.theme.backgroundColor};
     margin-bottom: 10px;
     padding-top: 10px;
     padding-left: 3%;
     position: absolute;
     z-index: -1;
-    background-color: ${commonStyles.containerColor};
+    background-color: ${props => props.theme.containerColor};
 
     bottom: ${(props) => (props.haveCompletedTodos ? '-52px' : '0')};
   }

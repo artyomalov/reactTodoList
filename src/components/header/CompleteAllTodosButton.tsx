@@ -4,7 +4,6 @@ import { completeAllTodosToggler } from '../../store/todoSlice';
 import selectTodos from '../../store/selectors';
 import { todosData } from '../../types/todoDataType';
 import styled from 'styled-components';
-import commonStyles from '../commonStyles';
 type completeAllTodosButtonDivType = {
   buttonEnabled: boolean;
 };
@@ -27,13 +26,13 @@ const CompleteAllTodosButtonSpan = styled.span<completeAllTodosButtonSpanType>`
   display: inline-block;
   width: 9px;
   height: 9px;
-  border: solid ${commonStyles.checkColor};
+  border: solid ${props => props.theme.checkColor};
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   margin-bottom: 2px;
   opacity: ${(props) => (props.allTodosCompleted ? '1' : '0.4')};
-  transition: ${commonStyles.transitionStyle};
-  .completeAllTodosButtonDiv:hover & {
+  transition: ${props => props.theme.transitionStyle};
+  ${СompleteAllTodosButtonDiv}:hover & {
     opacity: 1;
   }
 `;
@@ -48,7 +47,6 @@ const CompleteAllTodosButton: React.FC = () => {
     <СompleteAllTodosButtonDiv
       buttonEnabled={Boolean(filteredTodosData.todosCounter)}
       onClick={togglecompleteAllTodos}
-      className="completeAllTodosButtonDiv"
     >
       <CompleteAllTodosButtonSpan
         allTodosCompleted={filteredTodosData.allTodosCompleted}
