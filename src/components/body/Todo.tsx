@@ -1,20 +1,115 @@
 import React from 'react';
 import { useAppDispatch } from '../../store/hooks';
-import styles from './Todo.module.scss';
+import { updateTodo, toggleTodoCompleted, deleteTodo } from '../../store/todoSlice';
 import { todoType } from '../../types/todoType';
-import {
-  updateTodo,
-  toggleTodoCompleted,
-  deleteTodo,
-} from '../../store/todoSlice';
+import styled from 'styled-components';
+import commonStyles from '../commonStyles';
+
+const TodoTodoContainer = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid ${commonStyles.backgroundColor};
+  padding: 3%;
+`;
+
+const TodoCompleteButton = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid ${commonStyles.backgroundColor};
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+`;
+
+
+type todoCompletedType = {
+  completed: boolean;
+};
+
+const TodoButtonCheckMark = styled.span<todoCompletedType>`
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: solid ${commonStyles.checkColor};
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+  transition: ${commonStyles.transitionStyle};
+  opacity: ${(props) => (props.completed ? '1' : '0')};
+`;
+
+const TodoTodoText = styled.p<todoCompletedType>`
+  width: 80%;
+  height: 30px;
+  padding-top: 8px;
+  text-align: start;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: ${props=>props.completed ? 'line-through' : 'none'};
+`
+
+
+const TodoEditTodoInput = styled.input`
+  width: 80%;
+  height: 30px;
+  text-align: start;
+`
 
 type todoProps = {
   todo: todoType;
 };
 
-const Todo: React.FC<todoProps> = (props: todoProps) => {
-  const todo: todoType = props.todo; //нужно ли типизировать здесь, если типизация была на уровне пропсов в Todo лист в map?
 
+const deleteButtonProps = {
+  top: '14px',
+  right: '5px',
+  crossColor: 'rgb(175, 0, 0)',
+  crossWidth: '20px',
+  crossHeight: '3px',
+}
+
+const TodoDeleteTodoButton = styled.div`
+  position: relative;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: '';
+    display: inline-block;
+    width: ${deleteButtonProps.crossWidth};
+    height: ${deleteButtonProps.crossHeight};
+    background-color: ${deleteButtonProps.crossColor};
+    position: absolute;
+    top: ${deleteButtonProps.top};
+    right: ${deleteButtonProps.right};
+    transition: ${commonStyles.transitionStyle};
+  }
+  &::after {
+    transform: rotate(-45deg);
+  }
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &:hover {
+    &::before {
+      transform: rotate(0deg);
+    }
+    &::after {
+      transform: rotate(0deg);
+    }
+  }
+`
+
+
+const Todo: React.FC<todoProps> = (props: todoProps) => {
+  const todo = props.todo;
   const [edit, setEdit] = React.useState<boolean>(false);
   const [editInputData, setEditInputData] = React.useState<string>(todo.text);
   const dispatch = useAppDispatch();
@@ -57,22 +152,12 @@ const Todo: React.FC<todoProps> = (props: todoProps) => {
   const deleteTodoHandler = () => dispatch(deleteTodo(todo.id));
 
   return (
-    <div className={styles.todoContainer}>
-      <div
-        className={styles.completeButton}
-        onClick={toggleTodoCompletedHandler}
-      >
-        <span
-          className={
-            todo.completed
-              ? styles.buttonCheckMark
-              : styles.buttonCheckMark_hidden
-          }
-        ></span>
-      </div>
+    <TodoTodoContainer>
+      <TodoCompleteButton onClick={toggleTodoCompletedHandler}>
+        <TodoButtonCheckMark completed={todo.completed}></TodoButtonCheckMark>
+      </TodoCompleteButton>
       {edit ? (
-        <input
-          className={styles.editTodoInput}
+        <TodoEditTodoInput
           onChange={setInputDataHandler}
           onBlur={onBlurInputHandler}
           onKeyDown={onKeyDowmHandler}
@@ -81,20 +166,17 @@ const Todo: React.FC<todoProps> = (props: todoProps) => {
           autoFocus
         />
       ) : (
-        <p
-          className={
-            todo.completed ? styles.todoText_completed : styles.todoText
-          }
+        <TodoTodoText
+          completed = {todo.completed}
           onDoubleClick={setEditHandler}
         >
           {todo.text}
-        </p>
+        </TodoTodoText>
       )}
-      <div
-        className={styles.deleteTodoButton}
+      <TodoDeleteTodoButton
         onClick={deleteTodoHandler}
-      ></div>
-    </div>
+      ></TodoDeleteTodoButton>
+    </TodoTodoContainer>
   );
 };
 

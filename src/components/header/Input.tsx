@@ -26,7 +26,7 @@ const Input: React.FC = () => {
   React.useEffect(() => {
     if (!inputRef.current) throw new Error('input ref is not assigned');
     inputRef.current.focus();
-  }, []);
+  });
 
   const addTodoHandler = () => {
     if (!text.trim()) {

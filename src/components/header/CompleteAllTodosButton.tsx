@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './CompleteAllTodosButton.module.scss';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { completeAllTodosToggler } from '../../store/todoSlice';
 import selectTodos from '../../store/selectors';
@@ -33,7 +32,7 @@ const CompleteAllTodosButtonSpan = styled.span<completeAllTodosButtonSpanType>`
   transform: rotate(45deg);
   margin-bottom: 2px;
   opacity: ${(props) => (props.allTodosCompleted ? '1' : '0.4')};
-  transition: all ${commonStyles.timing} linear;
+  transition: ${commonStyles.transitionStyle};
   .completeAllTodosButtonDiv:hover & {
     opacity: 1;
   }
@@ -53,11 +52,6 @@ const CompleteAllTodosButton: React.FC = () => {
     >
       <CompleteAllTodosButtonSpan
         allTodosCompleted={filteredTodosData.allTodosCompleted}
-        // className={
-        //   filteredTodosData.allTodosCompleted
-        //     ? styles.buttonCheckMark
-        //     : styles.buttonCheckMark_disabled
-        // }
       ></CompleteAllTodosButtonSpan>
     </СompleteAllTodosButtonDiv>
   );

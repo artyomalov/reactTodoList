@@ -3,7 +3,7 @@ const commonStyles = {
   containerColor: 'rgb(250, 250, 250)',
   containerWidth: '550px',
   checkColor: 'rgb(173, 196, 173)',
-  timing: '0.15s',
+  transitionStyle: 'all 0.15s ease-in-out',
   mediaMaxWidth: '480px',
 };
 
