@@ -2,34 +2,14 @@ import React from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { setFilter } from '../../store/todoSlice';
 import selectTodos from '../../store/selectors';
-import styled from 'styled-components';
+import StyledFilterElement from './FilterItem.style';
 
-type FitlerItmeElementType = {
-  selected: boolean;
-};
 
-const FilterItemElement = styled.p<FitlerItmeElementType>`
-  display: inline-block;
-  height: 18px;
-  background: none;
-  border: none;
-  transition: ${props => props.theme.transitionStyle};
-  cursor: ${(props) => (props.selected ? 'not-allowed' : 'pointer')};
-  outline: ${(props) =>
-    props.selected ? `2px solid ${props.theme.checkColor}` : ''};
-  outline-offset: ${(props) => (props.selected ? '2px' : '')};
-
-  &:hover {
-    outline: 2px solid rgb(222, 226, 222);
-    outline-offset: 2px;
-  }
-`;
-
-type filterProps = {
+type FilterProps = {
   filterValue: string;
 };
 
-const FilterItem: React.FC<filterProps> = (props: filterProps) => {
+const FilterItem: React.FC<FilterProps> = (props) => {
   const dispatch = useAppDispatch();
 
   const todosData = useAppSelector(selectTodos);
@@ -39,9 +19,9 @@ const FilterItem: React.FC<filterProps> = (props: filterProps) => {
   };
 
   return (
-    <FilterItemElement selected={selected} onClick={setFilterHandler}>
+    <StyledFilterElement selected={selected} onClick={setFilterHandler}>
       {props.filterValue}
-    </FilterItemElement>
+    </StyledFilterElement>
   );
 };
 

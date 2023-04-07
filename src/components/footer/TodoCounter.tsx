@@ -1,29 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
+import StyledTodoCounter from './TodoCounter.style';
 
-const TodoCounterCounter = styled.div`
-  width: 90px;
-  height: 18px;
-  vertical-align: middle;
-
-  @media (max-width: ${props=>props.theme.mediaMaxWidth}) {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-left: 3%;
-  }
-`;
-
-type todoCounterProps = {
+type TodoCounterProps = {
   activeTodosCounter: number;
 };
 
-const TodoCounter: React.FC<todoCounterProps> = (props: todoCounterProps) => {
+
+const TodoCounter: React.FC<TodoCounterProps> = (props) => {
+
   const itemEnding: string = props.activeTodosCounter === 1 ? 'item' : 'items';
 
   return (
-    <TodoCounterCounter>
+    <StyledTodoCounter>
       {props.activeTodosCounter} {itemEnding} left
-    </TodoCounterCounter>
+    </StyledTodoCounter>
   );
 };
 

@@ -2,29 +2,19 @@ import React from 'react';
 import Todo from './Todo';
 import { useAppSelector } from '../../store/hooks';
 import selectTodos from '../../store/selectors';
-import { todoType } from '../../types/todoType';
-import { todosData } from '../../types/todoDataType';
-import styled from 'styled-components';
-
-const TodosTodoList = styled.div`
-  max-width: ${props => props.theme.containerWidth};
-  width: 100%;
-  background-color: ${props => props.theme.containerColor};
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import { TodoType } from '../../types/todoType';
+import { TodosData } from '../../types/todoDataType';
+import StyledTodoList from './TodoList.style';
 
 const Todos: React.FC = () => {
-  const filteredTodosData: todosData = useAppSelector(selectTodos);
+  const filteredTodosData: TodosData = useAppSelector(selectTodos);
 
   return (
-    <TodosTodoList>
-      {filteredTodosData.filteredTodos.map((todo: todoType) => (
-        <Todo key={todo.id} todo={todo} />
-      ))}
-    </TodosTodoList>
+    <StyledTodoList>
+      {filteredTodosData.filteredTodos.map((todo: TodoType) => {
+        return <Todo key={todo.id} todo={todo} />;
+      })}
+    </StyledTodoList>
   );
 };
 

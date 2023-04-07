@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { todoType } from '../types/todoType';
+import { TodoType } from '../types/todoType';
 
-type todosState = {
-  todos: Array<todoType>;
+type TodosState = {
+  todos: Array<TodoType>;
   filter: string;
 };
 
-const initialState: todosState = {
+const initialState: TodosState = {
   todos: [],
   filter: 'all',
 };
@@ -20,13 +20,13 @@ const todoSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<todoType>) => {
+    addTodo: (state, action: PayloadAction<TodoType>) => {
       state.todos.push(action.payload);
     },
 
     updateTodo: (state, action: PayloadAction<updateTodoPayloadType>) => {
-      const updatedTodo: todoType | undefined = state.todos.find(
-        (todo: todoType) => todo.id === action.payload.id
+      const updatedTodo: TodoType | undefined = state.todos.find(
+        (todo: TodoType) => todo.id === action.payload.id
       );
       if (updatedTodo) {
         updatedTodo.text = action.payload.text;
@@ -34,7 +34,7 @@ const todoSlice = createSlice({
     },
 
     toggleTodoCompleted: (state, action: PayloadAction<string>) => {
-      const updatedTodo: todoType | undefined = state.todos.find(
+      const updatedTodo: TodoType | undefined = state.todos.find(
         (todo) => todo.id === action.payload
       );
       if (updatedTodo) {
@@ -52,7 +52,7 @@ const todoSlice = createSlice({
       state.todos = state.todos.filter((todo) => !todo.completed);
     },
     setAllTodosUncompleted: (state) => {
-      state.todos.map((todo) => (todo.completed = false));
+      state.todos.map((todo) => {return todo.completed = false});
     },
     completeAllTodos: (state) => {
       state.todos.forEach((todo) => {
@@ -103,4 +103,4 @@ export const {
 } = actions;
 export default reducer;
 
-export type { todosState };
+export type { TodosState };

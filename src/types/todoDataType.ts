@@ -1,7 +1,7 @@
-import { todoType } from './todoType';
+import { TodoType } from './todoType';
 
-type todosData = {
-  filteredTodos: Array<todoType>;
+type TodosData = {
+  filteredTodos: Array<TodoType>;
   activeTodosCounter: number;
   todosCounter: number;
   allTodosCompleted: boolean;
@@ -9,4 +9,4 @@ type todosData = {
   filter: string;
 };
 
-export type { todosData };
+export type { TodosData };

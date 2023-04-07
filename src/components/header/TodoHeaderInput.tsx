@@ -1,22 +1,8 @@
 import React from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { addTodo } from '../../store/todoSlice';
-import { todoType } from '../../types/todoType';
-import styled from 'styled-components';
-
-const InputForm = styled.form`
-  flex-grow: 0.9;
-`;
-
-const InputInput = styled.input`
-  height: 50px;
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 20px;
-  vertical-align: middle;
-  padding-left: 2px;
-`;
+import { TodoType } from '../../types/todoType';
+import StyledInputForm from './TodoHeaderInput.style';
 
 const Input: React.FC = () => {
   const [text, setText] = React.useState('');
@@ -24,7 +10,7 @@ const Input: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    if (!inputRef.current) throw new Error('input ref is not assigned');
+    if (!inputRef.current){return};
     inputRef.current.focus();
   });
 
@@ -33,7 +19,7 @@ const Input: React.FC = () => {
       return;
     }
 
-    const newTodo: todoType = {
+    const newTodo: TodoType = {
       id: (Date.now() + Math.random()).toString(),
       text,
       completed: false,
@@ -57,15 +43,16 @@ const Input: React.FC = () => {
   };
 
   return (
-    <InputForm onSubmit={addTodoHandlerForm}>
-      <InputInput
+    <StyledInputForm onSubmit={addTodoHandlerForm}>
+      <input
+        className='input-todo'
         ref={inputRef}
         onChange={onChangeHandler}
         onBlur={addTodoHandlerInput}
         value={text}
         placeholder="What needs to be done"
       />
-    </InputForm>
+    </StyledInputForm>
   );
 };
 
