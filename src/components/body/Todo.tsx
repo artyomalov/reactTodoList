@@ -15,7 +15,7 @@ const Todo: React.FC<TodoProps> = (props) => {
   const dispatch = useAppDispatch();
 
   const toggleTodoCompletedHandler = () =>
-    dispatch(toggleTodoCompleted(todo.id));
+    dispatch(toggleTodoCompleted(todo._id));
 
   const onBlurInputHandler = () => {
     if (!editInputData.trim()) {
@@ -23,7 +23,7 @@ const Todo: React.FC<TodoProps> = (props) => {
       setEdit(false);
       return;
     }
-    dispatch(updateTodo({ id: todo.id, text: editInputData }));
+    dispatch(updateTodo({ id: todo._id, text: editInputData }));
     setEdit(false);
   };
 
@@ -41,7 +41,7 @@ const Todo: React.FC<TodoProps> = (props) => {
       setEdit(false);
       return;
     }
-    dispatch(updateTodo({ id: todo.id, text: editInputData }));
+    dispatch(updateTodo({ id: todo._id, text: editInputData }));
     setEdit(false);
   };
 
@@ -50,7 +50,7 @@ const Todo: React.FC<TodoProps> = (props) => {
 
   const setEditHandler = () => setEdit(true);
 
-  const deleteTodoHandler = () => dispatch(deleteTodo(todo.id));
+  const deleteTodoHandler = () => dispatch(deleteTodo(todo._id));
 
   return (
     <StyledTodoWrapper isCompleted={todo.completed}>

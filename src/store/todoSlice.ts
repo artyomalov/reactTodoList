@@ -20,13 +20,19 @@ const todoSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
+
+    getAllTodos: (state, action: PayloadAction<Array<TodoType>>) => {
+      state.todos.push(...action.payload)
+    },
+
+
     addTodo: (state, action: PayloadAction<TodoType>) => {
       state.todos.push(action.payload);
     },
 
     updateTodo: (state, action: PayloadAction<updateTodoPayloadType>) => {
       const updatedTodo: TodoType | undefined = state.todos.find(
-        (todo: TodoType) => todo.id === action.payload.id
+        (todo: TodoType) => todo._id === action.payload.id
       );
       if (updatedTodo) {
         updatedTodo.text = action.payload.text;
@@ -35,7 +41,7 @@ const todoSlice = createSlice({
 
     toggleTodoCompleted: (state, action: PayloadAction<string>) => {
       const updatedTodo: TodoType | undefined = state.todos.find(
-        (todo) => todo.id === action.payload
+        (todo) => todo._id === action.payload
       );
       if (updatedTodo) {
         updatedTodo.completed = !updatedTodo.completed;
@@ -44,7 +50,7 @@ const todoSlice = createSlice({
 
     deleteTodo: (state, action: PayloadAction<string>) => {
       const isDeletedElementIndex = state.todos.findIndex(
-        (todo) => todo.id === action.payload
+        (todo) => todo._id === action.payload
       );
       state.todos.splice(isDeletedElementIndex, 1);
     },
@@ -91,6 +97,7 @@ const todoSlice = createSlice({
 
 const { actions, reducer } = todoSlice;
 export const {
+  getAllTodos,
   addTodo,
   updateTodo,
   toggleTodoCompleted,

@@ -3,6 +3,8 @@ import { useAppDispatch } from '../../store/hooks';
 import { addTodo } from '../../store/todoSlice';
 import { TodoType } from '../../types/todoType';
 import StyledInputForm from './TodoHeaderInput.style';
+import todoRequests from '../api/requests';
+
 
 const Input: React.FC = () => {
   const [text, setText] = React.useState('');
@@ -18,9 +20,14 @@ const Input: React.FC = () => {
     if (!text.trim()) {
       return;
     }
+    console.log('add')
+    todoRequests.addTodo(JSON.stringify(text)).then((response) => {
+      console.log(response);
+    });
+
 
     const newTodo: TodoType = {
-      id: (Date.now() + Math.random()).toString(),
+      _id: (Date.now() + Math.random()).toString(),
       text,
       completed: false,
     };
