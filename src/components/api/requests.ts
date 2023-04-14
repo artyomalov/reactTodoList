@@ -1,29 +1,31 @@
 import http from './httpCommon';
-import { TodoType } from '../../types/todoType';
-import RequestType from '../../types/requestDataType';
+import { TodoType, AddTodoType } from '../../types/todoType';
+import TodoResponse from '../../types/todoResponse';
 
-const addTodo = async (text:string) => {
-  return await http.post<string>('/', text);
+
+const addTodo = (data: AddTodoType) => {
+  console.log(data);
+  return http.post<TodoResponse>('/', data);
 };
 
-const getAllTodos = async () => {
-  return await http.get<Array<TodoType>>('/');
+const getAllTodos =  (filterValue: string) => {
+  return http.get<Array<TodoType>>(`?filterValue=${filterValue}`);
 };
 
-const updateTodo = async (id: string, data: RequestType) => {
-  return await http.patch<string, RequestType>(`/${id}`, data);
+const updateTodo = (id: string, prop:string, value:string | boolean) => {
+  return http.patch<TodoResponse>(`/${id}`, {prop, value});
 };
 
-const deleteTodo = async (id: string) => {
-  return await http.delete<string>(`/${id}`);
+const deleteTodo = (id: string) => {
+  return http.delete<string>(`/${id}`);
 };
 
-const completeAllTodos = async () => {
-  return await http.patch('/');
+const completeAllTodos = () => {
+  return http.patch<boolean>('/');
 };
 
-const deleteAllCompletedTodos = async () => {
-  return await http.delete('/');
+const deleteAllCompletedTodos = () => {
+  return http.delete('/');
 };
 
 const todoRequests = {

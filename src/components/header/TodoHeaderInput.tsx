@@ -5,35 +5,37 @@ import { TodoType } from '../../types/todoType';
 import StyledInputForm from './TodoHeaderInput.style';
 import todoRequests from '../api/requests';
 
-
 const Input: React.FC = () => {
   const [text, setText] = React.useState('');
   const dispatch = useAppDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    if (!inputRef.current){return};
+    if (!inputRef.current) {
+      return;
+    }
     inputRef.current.focus();
   });
 
-  const addTodoHandler = () => {
+  const addTodoHandler = async () => {
     if (!text.trim()) {
       return;
     }
-    console.log('add')
-    todoRequests.addTodo(JSON.stringify(text)).then((response) => {
-      console.log(response);
-    });
-
-
-    const newTodo: TodoType = {
-      _id: (Date.now() + Math.random()).toString(),
-      text,
-      completed: false,
-    };
-
-    dispatch(addTodo(newTodo));
-    setText('');
+    try {
+      const response = await todoRequests.addTodo({text});
+      if (response.status === 404) {
+        throw new Error('Server error');
+      }
+      const newTodo: TodoType = {
+        _id: response.data._id,
+        text: response.data.text,
+        completed: response.data.completed,
+      };
+      dispatch(addTodo(newTodo));
+      setText('');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const addTodoHandlerForm = (ev: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +54,7 @@ const Input: React.FC = () => {
   return (
     <StyledInputForm onSubmit={addTodoHandlerForm}>
       <input
-        className='input-todo'
+        className="input-todo"
         ref={inputRef}
         onChange={onChangeHandler}
         onBlur={addTodoHandlerInput}

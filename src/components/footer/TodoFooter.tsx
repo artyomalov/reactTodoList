@@ -6,12 +6,22 @@ import selectTodos from '../../store/selectors';
 import { removeAllCompleted } from '../../store/todoSlice';
 import { TodosData } from '../../types/todoDataType';
 import StyledTodoFooterContainer from './TodoFooter.style';
+import todoRequests from '../api/requests';
 
 const TodoFooter: React.FC = () => {
   const filteredTodosData: TodosData = useAppSelector(selectTodos);
   const dispatch = useAppDispatch();
-  const clearAllCompletedHandler = () => {
-    dispatch(removeAllCompleted());
+  
+  const clearAllCompletedHandler = async () => {
+    try {
+      const response = await todoRequests.deleteAllCompletedTodos();
+      if (response.status !== 200) {
+        throw new Error("Server error! Can't delete todo");
+      }
+      dispatch(removeAllCompleted());
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   if (!filteredTodosData.todosCounter) {
