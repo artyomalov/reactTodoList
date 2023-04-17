@@ -4,7 +4,7 @@ import { addTodo } from '../../store/todoSlice';
 import { TodoType } from '../../types/todoType';
 import StyledInputForm from './TodoHeaderInput.style';
 import todoRequests from '../api/requests';
-
+import { setTodosToalCount } from '../../store/todoSlice';
 const Input: React.FC = () => {
   const [text, setText] = React.useState('');
   const dispatch = useAppDispatch();
@@ -22,16 +22,19 @@ const Input: React.FC = () => {
       return;
     }
     try {
-      const response = await todoRequests.addTodo({text});
-      if (response.status === 404) {
+      const response = await todoRequests.addTodo({ text });
+      if (response.status !== 200) {
         throw new Error('Server error');
       }
+
       const newTodo: TodoType = {
-        _id: response.data._id,
-        text: response.data.text,
-        completed: response.data.completed,
+        _id: response.data.returnedTodo._id,
+        text: response.data.returnedTodo.text,
+        completed: response.data.returnedTodo.completed,
       };
+
       dispatch(addTodo(newTodo));
+      dispatch(setTodosToalCount(response.data.todosTotalCount));
       setText('');
     } catch (err) {
       console.log(err);

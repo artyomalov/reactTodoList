@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 
-
 type StyledTodoFooterContainerType = {
   haveTodos: boolean;
   haveCompletedTodos: boolean;
@@ -8,15 +7,16 @@ type StyledTodoFooterContainerType = {
 
 const TodoFooterContainer = styled.div<StyledTodoFooterContainerType>`
   display: ${(props) => (props.haveTodos ? 'flex' : 'none')};
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  /* justify-content: space-between; */
   width: 100%;
   max-width: ${(props) => props.theme.containerWidth};
-  height: 50px;
+  height: 100px;
   background-color: ${(props) => props.theme.containerColor};
   border-top: 2px solid ${(props) => props.theme.backgroundColor};
-  padding: 3%;
-  @media ${(props) => props.theme.media} {
+
+  /* @media ${(props) => props.theme.media} {
     display: ${(props) => (props.haveTodos ? 'flex' : 'none')};
     flex-direction: column;
     height: fit-content;
@@ -24,9 +24,41 @@ const TodoFooterContainer = styled.div<StyledTodoFooterContainerType>`
     justify-content: flex-start;
     padding: 0;
     position: relative;
+  } */
+
+  .pages-container {
+    padding-top: 13px;
+    padding-bottom: 10px;
+    padding-left: 3%;
+    padding-right: 3%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .filter-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: green;
+    max-width: ${(props) => props.theme.containerWidth};
+    background-color: ${(props) => props.theme.containerColor};
+    border-top: 2px solid ${(props) => props.theme.backgroundColor};
+    padding: 3%;
+    @media ${(props) => props.theme.media} {
+      display: ${(props) => (props.haveTodos ? 'flex' : 'none')};
+      flex-direction: column;
+      height: fit-content;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 0;
+      position: relative;
+    }
   }
 
   .completed-remover {
+    width: 22%;
     display: inline-block;
     height: 18px;
     background: none;
@@ -54,4 +86,4 @@ const TodoFooterContainer = styled.div<StyledTodoFooterContainerType>`
   }
 `;
 
-export default TodoFooterContainer
+export default TodoFooterContainer;

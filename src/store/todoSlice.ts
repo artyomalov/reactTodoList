@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TodoType } from '../types/todoType';
+import GetRequestDataType from '../types/getRequestDataType';
 
-type TodosState = {
-  todos: Array<TodoType>;
+type TodosState = GetRequestDataType & {
   filter: string;
+  currentPage: number;
 };
 
 type toggleTodoCompletedType = {
@@ -13,7 +14,12 @@ type toggleTodoCompletedType = {
 
 const initialState: TodosState = {
   todos: [],
+  todosTotalCount: 0,
+  activeTodosCount: 0,
+  pagesCount: 0,
   filter: 'all',
+  currentPage: 1,
+  someTodosCompleted: false
 };
 
 type updateTodoPayloadType = {
@@ -25,8 +31,12 @@ const todoSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
-    getAllTodos: (state, action: PayloadAction<Array<TodoType>>) => {
-      state.todos = action.payload;
+    getAllTodos: (state, action: PayloadAction<GetRequestDataType>) => {
+      state.todos = action.payload.todos;
+      state.todosTotalCount = action.payload.todosTotalCount;
+      state.activeTodosCount = action.payload.activeTodosCount;
+      state.pagesCount = action.payload.pagesCount;
+      state.someTodosCompleted = action.payload.someTodosCompleted;
     },
 
     addTodo: (state, action: PayloadAction<TodoType>) => {
@@ -73,6 +83,17 @@ const todoSlice = createSlice({
     setFilter: (state, action: PayloadAction<string>) => {
       state.filter = action.payload;
     },
+
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
+    },
+
+    setTodosToalCount: (state, action: PayloadAction<number>) => {
+      state.todosTotalCount = action.payload;
+    },
+    setActiveTodosCount: (state, action: PayloadAction<number>) => {
+      state.activeTodosCount = action.payload
+    }
   },
 });
 
@@ -86,6 +107,9 @@ export const {
   removeAllCompleted,
   setFilter,
   completeAllTodosToggler,
+  setCurrentPage,
+  setTodosToalCount,
+  setActiveTodosCount,
 } = actions;
 export default reducer;
 

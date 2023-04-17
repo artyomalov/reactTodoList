@@ -4,6 +4,8 @@ import {
   updateTodo,
   toggleTodoCompleted,
   deleteTodo,
+  setTodosToalCount,
+  setActiveTodosCount,
 } from '../../store/todoSlice';
 import { TodoType } from '../../types/todoType';
 import StyledTodoWrapper from './Todo.style';
@@ -31,10 +33,11 @@ const Todo: React.FC<TodoProps> = (props) => {
       }
       dispatch(
         toggleTodoCompleted({
-          _id: response.data._id,
-          completed: response.data.completed,
+          _id: response.data.returnedTodo._id,
+          completed: response.data.returnedTodo.completed,
         })
       );
+      dispatch(setActiveTodosCount(response.data.todosTotalCount))
     } catch (err) {
       console.log(err);
     }
@@ -47,11 +50,10 @@ const Todo: React.FC<TodoProps> = (props) => {
         prop,
         editInputData
       );
-      console.log(response);
       if (response.status !== 200) {
         throw new Error("Can't update todo. Server error");
       }
-      dispatch(updateTodo({ id: response.data._id, text: response.data.text }));
+      dispatch(updateTodo({ id: response.data.returnedTodo._id, text: response.data.returnedTodo.text }));
       setEdit(false);
     } catch (err) {
       console.log(err);
@@ -98,6 +100,7 @@ const Todo: React.FC<TodoProps> = (props) => {
         throw new Error('Server error');
       }
       dispatch(deleteTodo(todo._id));
+      dispatch(setTodosToalCount(response.data))
     } catch (err) {
       console.log(err);
     }
