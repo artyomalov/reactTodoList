@@ -1,10 +1,12 @@
 import http from './httpCommon';
-import { TodoType, AddTodoType } from '../../types/todoType';
 import GetRequestDataType from '../../types/getRequestDataType';
 import ResponseTodoType from '../../types/ResponseTodoType';
 
-const addTodo = (data: AddTodoType) => {
-  return http.post<ResponseTodoType>('/', data);
+const addTodo = (data: string, filter: string, currentPage: number) => {
+  return http.post<ResponseTodoType>(
+    `?filterValue=${filter}&pageNumber=${currentPage}`,
+    { data }
+  );
 };
 
 const getAllTodos = (filterValue: string, pageNumber: number) => {
@@ -18,7 +20,11 @@ const updateTodo = (id: string, prop: string, value: string | boolean) => {
 };
 
 const deleteTodo = (id: string) => {
-  return http.delete<number>(`/${id}`);
+  return http.delete<{
+    pagesCount: number;
+    activeTodosCount: number;
+    todosTotalCount: number;
+  }>(`/${id}`);
 };
 
 const completeAllTodos = () => {

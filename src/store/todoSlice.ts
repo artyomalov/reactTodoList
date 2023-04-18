@@ -7,7 +7,13 @@ type TodosState = GetRequestDataType & {
   currentPage: number;
 };
 
-type toggleTodoCompletedType = {
+type AddTodoType = TodoType & {
+  activeTodosCount: number;
+  pagesCount: number;
+  todosTotalCount: number;
+};
+
+type ToggleTodoCompletedType = {
   _id: string;
   completed: boolean;
 };
@@ -19,7 +25,7 @@ const initialState: TodosState = {
   pagesCount: 0,
   filter: 'all',
   currentPage: 1,
-  someTodosCompleted: false
+  someTodosCompleted: false,
 };
 
 type updateTodoPayloadType = {
@@ -37,15 +43,26 @@ const todoSlice = createSlice({
       state.activeTodosCount = action.payload.activeTodosCount;
       state.pagesCount = action.payload.pagesCount;
       state.someTodosCompleted = action.payload.someTodosCompleted;
+    
     },
 
-    addTodo: (state, action: PayloadAction<TodoType>) => {
-      state.todos.push(action.payload);
+    addTodo: (state, action: PayloadAction<AddTodoType>) => {
+      state.activeTodosCount = action.payload.activeTodosCount;
+      state.pagesCount = action.payload.pagesCount;
+      state.todosTotalCount = action.payload.todosTotalCount;
+      const newTodo = {
+        _id: action.payload._id,
+        text: action.payload.text,
+        completed: action.payload.completed,
+      };
+      state.todos.unshift(newTodo);
+
+      if (state.todos.length > 5) state.todos.pop();
     },
 
     updateTodo: (state, action: PayloadAction<updateTodoPayloadType>) => {
-      const updatedTodo: TodoType | undefined = state.todos.find(
-        (todo: TodoType) => todo._id === action.payload.id
+      const updatedTodo = state.todos.find(
+        (todo) => todo._id === action.payload.id
       );
       if (updatedTodo) {
         updatedTodo.text = action.payload.text;
@@ -54,9 +71,9 @@ const todoSlice = createSlice({
 
     toggleTodoCompleted: (
       state,
-      action: PayloadAction<toggleTodoCompletedType>
+      action: PayloadAction<ToggleTodoCompletedType>
     ) => {
-      const updatedTodo: TodoType | undefined = state.todos.find(
+      const updatedTodo = state.todos.find(
         (todo) => todo._id === action.payload._id
       );
       if (updatedTodo) {
@@ -64,11 +81,14 @@ const todoSlice = createSlice({
       }
     },
 
-    deleteTodo: (state, action: PayloadAction<string>) => {
+    deleteTodo: (state, action: PayloadAction<{_id: string, pagesCount:number, activeTodosCount:number, todosTotalCount:number}>) => {
       const isDeletedElementIndex = state.todos.findIndex(
-        (todo) => todo._id === action.payload
+        (todo) => todo._id === action.payload._id
       );
       state.todos.splice(isDeletedElementIndex, 1);
+      state.activeTodosCount = action.payload.activeTodosCount;
+      state.pagesCount = action.payload.pagesCount;
+      state.todosTotalCount = action.payload.todosTotalCount;
     },
     removeAllCompleted: (state) => {
       state.todos = state.todos.filter((todo) => !todo.completed);
@@ -79,12 +99,13 @@ const todoSlice = createSlice({
         todo.completed = action.payload;
       });
     },
-    
+
     setFilter: (state, action: PayloadAction<string>) => {
       state.filter = action.payload;
     },
 
     setCurrentPage: (state, action: PayloadAction<number>) => {
+      console.log("update");
       state.currentPage = action.payload;
     },
 
@@ -92,8 +113,8 @@ const todoSlice = createSlice({
       state.todosTotalCount = action.payload;
     },
     setActiveTodosCount: (state, action: PayloadAction<number>) => {
-      state.activeTodosCount = action.payload
-    }
+      state.activeTodosCount = action.payload;
+    },
   },
 });
 

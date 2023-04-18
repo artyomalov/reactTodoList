@@ -1,15 +1,13 @@
 import React from 'react';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTodo } from '../../store/todoSlice';
-import { TodoType } from '../../types/todoType';
 import StyledInputForm from './TodoHeaderInput.style';
 import todoRequests from '../api/requests';
-import { setTodosToalCount } from '../../store/todoSlice';
 const Input: React.FC = () => {
   const [text, setText] = React.useState('');
   const dispatch = useAppDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
-
+  const { currentPage, filter } = useAppSelector(state=>state.todos)
   React.useEffect(() => {
     if (!inputRef.current) {
       return;
@@ -22,20 +20,23 @@ const Input: React.FC = () => {
       return;
     }
     try {
-      const response = await todoRequests.addTodo({ text });
+      const response = await todoRequests.addTodo( text, filter, currentPage );
       if (response.status !== 200) {
         throw new Error('Server error');
       }
 
-      const newTodo: TodoType = {
-        _id: response.data.returnedTodo._id,
-        text: response.data.returnedTodo.text,
-        completed: response.data.returnedTodo.completed,
-      };
-
-      dispatch(addTodo(newTodo));
-      dispatch(setTodosToalCount(response.data.todosTotalCount));
       setText('');
+      dispatch(
+        addTodo({
+          _id: response.data.returnedTodo._id,
+          text: response.data.returnedTodo.text,
+          completed: response.data.returnedTodo.completed,
+          activeTodosCount: response.data.paginationData.activeTodosCount,
+          todosTotalCount: response.data.paginationData.todosTotalCount,
+          pagesCount: response.data.paginationData.pagesCount
+        })
+        );
+        console.log(response.data.paginationData.pagesCount)
     } catch (err) {
       console.log(err);
     }

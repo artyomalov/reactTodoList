@@ -1,16 +1,16 @@
 import React from 'react';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   updateTodo,
   toggleTodoCompleted,
   deleteTodo,
-  setTodosToalCount,
   setActiveTodosCount,
+  setCurrentPage,
 } from '../../store/todoSlice';
 import { TodoType } from '../../types/todoType';
 import StyledTodoWrapper from './Todo.style';
 import todoRequests from '../api/requests';
-
+import { useGetFilteredTodos } from '../api/useGetFilteredTodosHandler';
 type TodoProps = {
   todo: TodoType;
 };
@@ -19,8 +19,10 @@ const Todo: React.FC<TodoProps> = (props) => {
   const { todo } = props;
   const [edit, setEdit] = React.useState<boolean>(false);
   const [editInputData, setEditInputData] = React.useState<string>(todo.text);
+  const getFilteredTodos = useGetFilteredTodos();
   const dispatch = useAppDispatch();
-
+  const { todos, pagesCount, filter, currentPage, todosTotalCount } =
+    useAppSelector((state) => state.todos);
   const toggleTodoCompletedHandler = async () => {
     try {
       const response = await todoRequests.updateTodo(
@@ -37,13 +39,15 @@ const Todo: React.FC<TodoProps> = (props) => {
           completed: response.data.returnedTodo.completed,
         })
       );
-      dispatch(setActiveTodosCount(response.data.todosTotalCount))
+      dispatch(
+        setActiveTodosCount(response.data.paginationData.activeTodosCount)
+      );
     } catch (err) {
       console.log(err);
     }
   };
 
-  const todoUpdater = async (prop:string) => {
+  const todoUpdater = async (prop: string) => {
     try {
       const response = await todoRequests.updateTodo(
         todo._id,
@@ -53,12 +57,17 @@ const Todo: React.FC<TodoProps> = (props) => {
       if (response.status !== 200) {
         throw new Error("Can't update todo. Server error");
       }
-      dispatch(updateTodo({ id: response.data.returnedTodo._id, text: response.data.returnedTodo.text }));
+      dispatch(
+        updateTodo({
+          id: response.data.returnedTodo._id,
+          text: response.data.returnedTodo.text,
+        })
+      );
       setEdit(false);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const onBlurInputHandler = async () => {
     if (!editInputData.trim()) {
@@ -99,8 +108,27 @@ const Todo: React.FC<TodoProps> = (props) => {
       if (response.status !== 200) {
         throw new Error('Server error');
       }
-      dispatch(deleteTodo(todo._id));
-      dispatch(setTodosToalCount(response.data))
+      dispatch(
+        deleteTodo({
+          _id: todo._id,
+          pagesCount: response.data.pagesCount,
+          activeTodosCount: response.data.activeTodosCount,
+          todosTotalCount: response.data.todosTotalCount,
+        })
+      );
+      console.log(todos.length);
+      if (todos.length < 6) {
+        if (currentPage === 1 && todosTotalCount < 6) {
+          return;
+        }
+        if (currentPage === pagesCount) {
+          if (todos.length === 1) {
+            dispatch(setCurrentPage(currentPage - 1));
+          }
+          return;
+        }
+        getFilteredTodos(filter, currentPage);
+      }
     } catch (err) {
       console.log(err);
     }

@@ -48,19 +48,23 @@ const TodoFooter: React.FC = () => {
       haveCompletedTodos={someTodosCompleted}
     >
       <div className="pages-container">
-        <PageLinkBackForward rotation={'left'} currentPage={currentPage}/>
+        <PageLinkBackForward rotation="left" currentPage={currentPage} />
         <PagesList />
-        <PageLinkBackForward rotation={'right'} currentPage = {currentPage}/>
+        <PageLinkBackForward rotation="right" currentPage={currentPage} />
       </div>
       <div className="filter-container">
         <TodoCounter />
         <Filter />
-        {someTodosCompleted? <button
-          className="completed-remover"
-          onClick={clearAllCompletedHandler}
-        >
-          Clear completted
-        </button>:<button className="completed-remover"></button>}
+        {someTodosCompleted ? (
+          <button
+            className="completed-remover"
+            onClick={clearAllCompletedHandler}
+          >
+            Clear completted
+          </button>
+        ) : (
+          <button className="completed-remover"></button>
+        )}
       </div>
     </StyledTodoFooterContainer>
   );

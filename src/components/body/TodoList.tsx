@@ -1,30 +1,28 @@
 import React from 'react';
 import Todo from './Todo';
 import StyledTodoList from './TodoList.style';
-import { useAppSelector } from '../../store/hooks';
-import { TodoType } from '../../types/todoType';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useGetFilteredTodos } from '../api/useGetFilteredTodosHandler';
 
 const Todos: React.FC = () => {
   const getFilteredTodos = useGetFilteredTodos();
-  const filterValue = useAppSelector((state) => state.todos.filter);
-  const currentPage = useAppSelector((state) => state.todos.currentPage);
-  const todosTotalCount = useAppSelector(
-    (state) => state.todos.todosTotalCount
-  );
-  const activeTodosCount = useAppSelector(
-    (state) => state.todos.activeTodosCount
-  );
-  React.useEffect(() => {
-    getFilteredTodos(filterValue, currentPage);
-  }, [filterValue, currentPage, todosTotalCount, activeTodosCount]);
+  const dispatch = useAppDispatch();
+  const {
+    todos: filteredTodos,
+    filter: filterValue,
+    currentPage,
+  } = useAppSelector((state) => state.todos);
 
-  const filteredTodos: Array<TodoType> = useAppSelector(
-    (state) => state.todos.todos
-  );
+  React.useEffect(() => {
+    console.log('fuck');
+    getFilteredTodos(filterValue, currentPage);
+  }, [currentPage]);
+
+
   return (
     <StyledTodoList>
-      {filteredTodos.map((todo: TodoType) => {
+      {filteredTodos.map((todo, index) => {
+        if (index > 4) return null;
         return <Todo key={todo._id} todo={todo} />;
       })}
     </StyledTodoList>
@@ -32,3 +30,4 @@ const Todos: React.FC = () => {
 };
 
 export default Todos;
+

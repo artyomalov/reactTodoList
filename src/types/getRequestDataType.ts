@@ -1,7 +1,7 @@
 import { TodoType } from "./todoType"
 
 type GetRequestDataType = {
-  todos: Array<TodoType>;
+  todos: TodoType[];
   todosTotalCount: number;
   activeTodosCount: number;
   pagesCount: number;

@@ -5,10 +5,6 @@ type TodoType = {
 };
 
 
-type AddTodoType = {
-  text: string;
-}
 
-
-export type { TodoType, AddTodoType };
+export type { TodoType };
 
