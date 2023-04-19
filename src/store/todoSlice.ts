@@ -1,8 +1,14 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TodoType } from '../types/todoType';
 import GetRequestDataType from '../types/getRequestDataType';
+import CompleteAllTodosTogglerType from '../types/CompleteAllTodosTogglerType';
 
-type TodosState = GetRequestDataType & {
+type TodosState = {
+  todos: TodoType[];
+  todosTotalCount: number;
+  activeTodosCount: number;
+  pagesCount: number;
+  someTodosCompleted: boolean;
   filter: string;
   currentPage: number;
 };
@@ -16,7 +22,9 @@ type AddTodoType = TodoType & {
 type ToggleTodoCompletedType = {
   _id: string;
   completed: boolean;
+  activeTodosCount: number;
 };
+
 
 const initialState: TodosState = {
   todos: [],
@@ -28,7 +36,7 @@ const initialState: TodosState = {
   someTodosCompleted: false,
 };
 
-type updateTodoPayloadType = {
+type UpdateTodoPayloadType = {
   id: string;
   text: string;
 };
@@ -39,11 +47,11 @@ const todoSlice = createSlice({
   reducers: {
     getAllTodos: (state, action: PayloadAction<GetRequestDataType>) => {
       state.todos = action.payload.todos;
-      state.todosTotalCount = action.payload.todosTotalCount;
-      state.activeTodosCount = action.payload.activeTodosCount;
-      state.pagesCount = action.payload.pagesCount;
-      state.someTodosCompleted = action.payload.someTodosCompleted;
-    
+      state.todosTotalCount = action.payload.paginationData.todosTotalCount;
+      state.activeTodosCount = action.payload.paginationData.activeTodosCount;
+      state.pagesCount = action.payload.paginationData.pagesCount;
+      state.someTodosCompleted =
+        action.payload.paginationData.someTodosCompleted;
     },
 
     addTodo: (state, action: PayloadAction<AddTodoType>) => {
@@ -60,7 +68,7 @@ const todoSlice = createSlice({
       if (state.todos.length > 5) state.todos.pop();
     },
 
-    updateTodo: (state, action: PayloadAction<updateTodoPayloadType>) => {
+    updateTodo: (state, action: PayloadAction<UpdateTodoPayloadType>) => {
       const updatedTodo = state.todos.find(
         (todo) => todo._id === action.payload.id
       );
@@ -79,9 +87,18 @@ const todoSlice = createSlice({
       if (updatedTodo) {
         updatedTodo.completed = action.payload.completed;
       }
+      state.activeTodosCount = action.payload.activeTodosCount;
     },
 
-    deleteTodo: (state, action: PayloadAction<{_id: string, pagesCount:number, activeTodosCount:number, todosTotalCount:number}>) => {
+    deleteTodo: (
+      state,
+      action: PayloadAction<{
+        _id: string;
+        pagesCount: number;
+        activeTodosCount: number;
+        todosTotalCount: number;
+      }>
+    ) => {
       const isDeletedElementIndex = state.todos.findIndex(
         (todo) => todo._id === action.payload._id
       );
@@ -90,14 +107,24 @@ const todoSlice = createSlice({
       state.pagesCount = action.payload.pagesCount;
       state.todosTotalCount = action.payload.todosTotalCount;
     },
-    removeAllCompleted: (state) => {
-      state.todos = state.todos.filter((todo) => !todo.completed);
+    removeAllCompleted: (state, action: PayloadAction<GetRequestDataType>) => {
+      state.todos = action.payload.todos;
+      state.todosTotalCount = action.payload.paginationData.todosTotalCount;
+      state.activeTodosCount = action.payload.paginationData.activeTodosCount;
+      state.pagesCount = action.payload.paginationData.pagesCount;
+      state.someTodosCompleted =
+        action.payload.paginationData.someTodosCompleted;
     },
 
-    completeAllTodosToggler: (state, action: PayloadAction<boolean>) => {
-      state.todos.forEach((todo) => {
-        todo.completed = action.payload;
-      });
+    completeAllTodosToggler: (
+      state,
+      action: PayloadAction<CompleteAllTodosTogglerType>
+    ) => {
+      state.todos = action.payload.todos;
+      state.todosTotalCount = action.payload.paginationData.todosTotalCount;
+      state.activeTodosCount = action.payload.paginationData.activeTodosCount;
+      state.pagesCount = action.payload.paginationData.pagesCount;
+      state.someTodosCompleted = action.payload.paginationData.someTodosCompleted;
     },
 
     setFilter: (state, action: PayloadAction<string>) => {
@@ -105,16 +132,9 @@ const todoSlice = createSlice({
     },
 
     setCurrentPage: (state, action: PayloadAction<number>) => {
-      console.log("update");
       state.currentPage = action.payload;
     },
 
-    setTodosToalCount: (state, action: PayloadAction<number>) => {
-      state.todosTotalCount = action.payload;
-    },
-    setActiveTodosCount: (state, action: PayloadAction<number>) => {
-      state.activeTodosCount = action.payload;
-    },
   },
 });
 
@@ -129,8 +149,6 @@ export const {
   setFilter,
   completeAllTodosToggler,
   setCurrentPage,
-  setTodosToalCount,
-  setActiveTodosCount,
 } = actions;
 export default reducer;
 

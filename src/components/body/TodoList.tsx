@@ -6,7 +6,6 @@ import { useGetFilteredTodos } from '../api/useGetFilteredTodosHandler';
 
 const Todos: React.FC = () => {
   const getFilteredTodos = useGetFilteredTodos();
-  const dispatch = useAppDispatch();
   const {
     todos: filteredTodos,
     filter: filterValue,
@@ -14,20 +13,15 @@ const Todos: React.FC = () => {
   } = useAppSelector((state) => state.todos);
 
   React.useEffect(() => {
-    console.log('fuck');
     getFilteredTodos(filterValue, currentPage);
   }, [currentPage]);
 
-
-  return (
-    <StyledTodoList>
-      {filteredTodos.map((todo, index) => {
-        if (index > 4) return null;
-        return <Todo key={todo._id} todo={todo} />;
-      })}
-    </StyledTodoList>
-  );
+  return  <StyledTodoList>
+  {filteredTodos.map((todo, index) => {
+    if (index > 4) return null;
+    return <Todo key={todo._id} todo={todo} />;
+  })}
+</StyledTodoList>
 };
 
 export default Todos;
-

@@ -4,31 +4,31 @@ import {
   updateTodo,
   toggleTodoCompleted,
   deleteTodo,
-  setActiveTodosCount,
   setCurrentPage,
 } from '../../store/todoSlice';
 import { TodoType } from '../../types/todoType';
 import StyledTodoWrapper from './Todo.style';
 import todoRequests from '../api/requests';
 import { useGetFilteredTodos } from '../api/useGetFilteredTodosHandler';
-type TodoProps = {
-  todo: TodoType;
-};
 
-const Todo: React.FC<TodoProps> = (props) => {
+const Todo: React.FC<{ todo: TodoType }> = (props) => {
   const { todo } = props;
   const [edit, setEdit] = React.useState<boolean>(false);
   const [editInputData, setEditInputData] = React.useState<string>(todo.text);
   const getFilteredTodos = useGetFilteredTodos();
   const dispatch = useAppDispatch();
-  const { todos, pagesCount, filter, currentPage, todosTotalCount } =
-    useAppSelector((state) => state.todos);
+  const { todos, filter, currentPage, todosTotalCount } = useAppSelector(
+    (state) => state.todos
+  );
+
   const toggleTodoCompletedHandler = async () => {
     try {
       const response = await todoRequests.updateTodo(
         todo._id,
         'completed',
-        todo.completed
+        todo.completed,
+        currentPage,
+        filter
       );
       if (response.status !== 200) {
         throw new Error('Server error');
@@ -37,11 +37,12 @@ const Todo: React.FC<TodoProps> = (props) => {
         toggleTodoCompleted({
           _id: response.data.returnedTodo._id,
           completed: response.data.returnedTodo.completed,
+          activeTodosCount: response.data.paginationData.activeTodosCount,
         })
       );
-      dispatch(
-        setActiveTodosCount(response.data.paginationData.activeTodosCount)
-      );
+      if (filter !== 'all') {
+        getFilteredTodos(filter, currentPage);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -52,7 +53,9 @@ const Todo: React.FC<TodoProps> = (props) => {
       const response = await todoRequests.updateTodo(
         todo._id,
         prop,
-        editInputData
+        editInputData,
+        currentPage,
+        filter
       );
       if (response.status !== 200) {
         throw new Error("Can't update todo. Server error");
@@ -78,7 +81,7 @@ const Todo: React.FC<TodoProps> = (props) => {
     todoUpdater('text');
   };
 
-  const onKeyDowmHandler = async (
+  const onKeyUpHandler = async (
     ev: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (ev.code === 'Escape') {
@@ -97,8 +100,9 @@ const Todo: React.FC<TodoProps> = (props) => {
     todoUpdater('text');
   };
 
-  const setInputDataHandler = (ev: React.ChangeEvent<HTMLInputElement>) =>
+  const setInputDataHandler = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setEditInputData(ev.target.value);
+  };
 
   const setEditHandler = () => setEdit(true);
 
@@ -116,12 +120,11 @@ const Todo: React.FC<TodoProps> = (props) => {
           todosTotalCount: response.data.todosTotalCount,
         })
       );
-      console.log(todos.length);
       if (todos.length < 6) {
         if (currentPage === 1 && todosTotalCount < 6) {
           return;
         }
-        if (currentPage === pagesCount) {
+        if (currentPage === response.data.pagesCount) {
           if (todos.length === 1) {
             dispatch(setCurrentPage(currentPage - 1));
           }
@@ -145,7 +148,7 @@ const Todo: React.FC<TodoProps> = (props) => {
           className="edit-todo-input"
           onChange={setInputDataHandler}
           onBlur={onBlurInputHandler}
-          onKeyDown={onKeyDowmHandler}
+          onKeyUp={onKeyUpHandler}
           value={editInputData}
           autoFocus
         />

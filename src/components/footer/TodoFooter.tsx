@@ -4,8 +4,6 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import Filter from './Filter';
 import {
   removeAllCompleted,
-  setActiveTodosCount,
-  setTodosToalCount,
 } from '../../store/todoSlice';
 import StyledTodoFooterContainer from './TodoFooter.style';
 import todoRequests from '../api/requests';
@@ -15,8 +13,8 @@ import PageLinkBackForward from './PageLinkBackForward';
 const TodoFooter: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentPage = useAppSelector((state) => state.todos.currentPage);
-  const todosTotalCount = useAppSelector(
-    (state) => state.todos.todosTotalCount
+  const {todosTotalCount, filter} = useAppSelector(
+    (state) => state.todos
   );
   const todosActiveCount = useAppSelector(
     (state) => state.todos.activeTodosCount
@@ -26,13 +24,16 @@ const TodoFooter: React.FC = () => {
 
   const clearAllCompletedHandler = async () => {
     try {
-      const response = await todoRequests.deleteAllCompletedTodos();
+      const response = await todoRequests.deleteAllCompletedTodos(filter);
       if (response.status !== 200) {
         throw new Error("Server error! Can't delete todo");
       }
-      dispatch(setTodosToalCount(response.data.todosTotalCount));
-      dispatch(setActiveTodosCount(response.data.activeTodosCount));
-      dispatch(removeAllCompleted());
+      dispatch(
+        removeAllCompleted({
+          todos: response.data.todos,
+          paginationData: response.data.paginationData,
+        })
+      );
     } catch (err) {
       console.log(err);
     }

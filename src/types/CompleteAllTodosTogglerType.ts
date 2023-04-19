@@ -1,14 +1,14 @@
-import { TodoType } from './todoType';
+import { TodoType } from "./todoType";
 
-type GetRequestDataType = {
+type CompleteAllTodosTogglerType = {
   todos: TodoType[];
   paginationData: {
     todosTotalCount: number;
     activeTodosCount: number;
     pagesCount: number;
     someTodosCompleted: boolean;
-  };
-};
+    completed: boolean;
+  }
+}
 
-
-export default GetRequestDataType;
+export default CompleteAllTodosTogglerType

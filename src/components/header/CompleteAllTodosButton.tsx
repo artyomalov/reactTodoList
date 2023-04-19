@@ -1,38 +1,45 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import todoRequests from '../api/requests';
-import reducer, { completeAllTodosToggler, setActiveTodosCount } from '../../store/todoSlice';
-import { StyledСompleteAllTodosButtonWrapper, StyledEmpty } from './CompleteAllTodosButton.style';
+import { completeAllTodosToggler } from '../../store/todoSlice';
+import { useGetFilteredTodos } from '../api/useGetFilteredTodosHandler';
+import {
+  StyledСompleteAllTodosButtonWrapper,
+  StyledEmpty,
+} from './CompleteAllTodosButton.style';
 
 const CompleteAllTodosButton: React.FC = () => {
-  const totalTodosCounter = useAppSelector(
-    (state) => state.todos.todosTotalCount
-  );
-  const someTodosCompleted = useAppSelector(
-    (state) => state.todos.someTodosCompleted
-  );
+
+  const {
+    todosTotalCount,
+    someTodosCompleted,
+    currentPage,
+    filter: filterValue,
+  } = useAppSelector((state) => state.todos);
+
   const dispatch = useAppDispatch();
+
   const togglecompleteAllTodos = async () => {
     try {
-      const response = await todoRequests.completeAllTodos();
+      const response = await todoRequests.completeAllTodos(filterValue);
       if (response.status !== 200) throw new Error('Server error');
-      dispatch(completeAllTodosToggler(response.data.completed));
-      dispatch(setActiveTodosCount(response.data.activeTodosCount));
+
+      dispatch(
+        completeAllTodosToggler({
+          todos: response.data.todos,
+          paginationData: response.data.paginationData,
+        })
+      );
     } catch (err) {
       console.log(err);
     }
   };
-  return !!totalTodosCounter ? (
+  return !!todosTotalCount ? (
     <StyledСompleteAllTodosButtonWrapper
       buttonEnabled={someTodosCompleted}
       onClick={togglecompleteAllTodos}
     >
-      <input
-        id="complete-checkbox"
-        type="checkbox"
-        className="complete-checkbox"
-      />
-      <label htmlFor="complete-checkbox" className="complete-label"></label>
+      <span className="complete-label"></span>
     </StyledСompleteAllTodosButtonWrapper>
   ) : (
     <StyledEmpty></StyledEmpty>

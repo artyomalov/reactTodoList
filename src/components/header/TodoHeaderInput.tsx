@@ -36,7 +36,6 @@ const Input: React.FC = () => {
           pagesCount: response.data.paginationData.pagesCount
         })
         );
-        console.log(response.data.paginationData.pagesCount)
     } catch (err) {
       console.log(err);
     }

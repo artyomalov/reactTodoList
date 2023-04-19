@@ -1,6 +1,7 @@
 import http from './httpCommon';
 import GetRequestDataType from '../../types/getRequestDataType';
 import ResponseTodoType from '../../types/ResponseTodoType';
+import CompleteAllTodosTogglerType from '../../types/CompleteAllTodosTogglerType';
 
 const addTodo = (data: string, filter: string, currentPage: number) => {
   return http.post<ResponseTodoType>(
@@ -15,8 +16,17 @@ const getAllTodos = (filterValue: string, pageNumber: number) => {
   );
 };
 
-const updateTodo = (id: string, prop: string, value: string | boolean) => {
-  return http.patch<ResponseTodoType>(`/${id}`, { prop, value });
+const updateTodo = (
+  id: string,
+  prop: string,
+  value: string | boolean,
+  pageNumber: number,
+  filterValue: string
+) => {
+  return http.patch<ResponseTodoType>(
+    `/${id}?filterValue=${filterValue}&pageNumber=${pageNumber}`,
+    { prop, value }
+  );
 };
 
 const deleteTodo = (id: string) => {
@@ -27,14 +37,12 @@ const deleteTodo = (id: string) => {
   }>(`/${id}`);
 };
 
-const completeAllTodos = () => {
-  return http.patch<{ completed: boolean; activeTodosCount: number }>('/');
+const completeAllTodos = (filterValue: string) => {
+  return http.patch<CompleteAllTodosTogglerType>(`?filterValue=${filterValue}`);
 };
 
-const deleteAllCompletedTodos = () => {
-  return http.delete<{ todosTotalCount: number; activeTodosCount: number }>(
-    '/'
-  );
+const deleteAllCompletedTodos = (filterValue: string) => {
+  return http.delete<GetRequestDataType>(`?filterValue=${filterValue}`);
 };
 
 const todoRequests = {
