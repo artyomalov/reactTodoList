@@ -21,7 +21,6 @@ const CompleteAllTodosButton: React.FC = () => {
     try {
       const response = await todoRequests.completeAllTodos(filterValue);
       if (response.status !== 200) throw new Error('Server error');
-      console.log(response.data)
       dispatch(
         completeAllTodosToggler({
           todos: response.data.todos,

@@ -25,7 +25,6 @@ const Input: React.FC = () => {
       if (response.status !== 200) {
         throw new Error('Server error');
       }
-      console.log(response.data)
       setText('');
       dispatch(
         addTodo({
