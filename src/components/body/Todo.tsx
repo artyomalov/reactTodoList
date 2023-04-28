@@ -57,9 +57,6 @@ const Todo: React.FC<{ todo: TodoType }> = (props) => {
         currentPage,
         filter
       );
-      if (response.status !== 200) {
-        throw new Error("Can't update todo. Server error");
-      }
       dispatch(
         updateTodo({
           id: response.data.returnedTodo._id,

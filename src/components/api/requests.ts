@@ -3,10 +3,10 @@ import GetRequestDataType from '../../types/getRequestDataType';
 import ResponseTodoType from '../../types/ResponseTodoType';
 import CompleteAllTodosTogglerType from '../../types/CompleteAllTodosTogglerType';
 
-const addTodo = (data: string, filter: string, currentPage: number) => {
+const addTodo = (text: string, filter: string, currentPage: number) => {
+
   return http.post<ResponseTodoType>(
-    `?filterValue=${filter}&pageNumber=${currentPage}`,
-    { data }
+    `?filterValue=${filter}&pageNumber=${currentPage}`, { text }
   );
 };
 

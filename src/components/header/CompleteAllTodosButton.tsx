@@ -2,7 +2,6 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import todoRequests from '../api/requests';
 import { completeAllTodosToggler } from '../../store/todoSlice';
-import { useGetFilteredTodos } from '../api/useGetFilteredTodosHandler';
 import {
   StyledСompleteAllTodosButtonWrapper,
   StyledEmpty,
@@ -13,7 +12,6 @@ const CompleteAllTodosButton: React.FC = () => {
   const {
     todosTotalCount,
     someTodosCompleted,
-    currentPage,
     filter: filterValue,
   } = useAppSelector((state) => state.todos);
 
@@ -23,7 +21,7 @@ const CompleteAllTodosButton: React.FC = () => {
     try {
       const response = await todoRequests.completeAllTodos(filterValue);
       if (response.status !== 200) throw new Error('Server error');
-
+      console.log(response.data)
       dispatch(
         completeAllTodosToggler({
           todos: response.data.todos,

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTodo } from '../../store/todoSlice';
 import StyledInputForm from './TodoHeaderInput.style';
 import todoRequests from '../api/requests';
+import { resolve } from 'path';
 const Input: React.FC = () => {
   const [text, setText] = React.useState('');
   const dispatch = useAppDispatch();
@@ -24,7 +25,7 @@ const Input: React.FC = () => {
       if (response.status !== 200) {
         throw new Error('Server error');
       }
-
+      console.log(response.data)
       setText('');
       dispatch(
         addTodo({
