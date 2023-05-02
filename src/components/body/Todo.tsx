@@ -35,8 +35,8 @@ const Todo: React.FC<{ todo: TodoType }> = (props) => {
       }
       dispatch(
         toggleTodoCompleted({
-          _id: response.data.returnedTodo._id,
-          completed: response.data.returnedTodo.completed,
+          _id: response.data.todos._id,
+          completed: response.data.todos.completed,
           activeTodosCount: response.data.paginationData.activeTodosCount,
         })
       );
@@ -59,8 +59,8 @@ const Todo: React.FC<{ todo: TodoType }> = (props) => {
       );
       dispatch(
         updateTodo({
-          id: response.data.returnedTodo._id,
-          text: response.data.returnedTodo.text,
+          id: response.data.todos._id,
+          text: response.data.todos.text,
         })
       );
       setEdit(false);

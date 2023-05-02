@@ -3,7 +3,6 @@ import { useAppSelector } from '../../store/hooks';
 import { useAppDispatch } from '../../store/hooks';
 import { setCurrentPage } from '../../store/todoSlice';
 import styled from 'styled-components';
-import { useGetFilteredTodos } from '../api/useGetFilteredTodosHandler';
 
 const StyledPageLink = styled.span<{ pageSelected: boolean }>`
   cursor: pointer;
@@ -30,6 +29,4 @@ const PageLink: React.FC<{ pageNumber: number }> = (props) => {
 };
 
 export default PageLink;
-function getFilteredTodos(filterValue: any, currentPage: number) {
-  throw new Error('Function not implemented.');
-}
+

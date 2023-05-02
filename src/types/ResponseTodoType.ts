@@ -1,7 +1,7 @@
 import { TodoType } from "./todoType"
 
 type ResponseTodoType = {
-  returnedTodo: TodoType;
+  todos: TodoType;
   paginationData: {
     activeTodosCount: number;
     pagesCount: number;

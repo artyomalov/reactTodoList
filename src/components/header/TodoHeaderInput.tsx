@@ -3,7 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTodo } from '../../store/todoSlice';
 import StyledInputForm from './TodoHeaderInput.style';
 import todoRequests from '../api/requests';
-import { resolve } from 'path';
+
+
 const Input: React.FC = () => {
   const [text, setText] = React.useState('');
   const dispatch = useAppDispatch();
@@ -28,9 +29,9 @@ const Input: React.FC = () => {
       setText('');
       dispatch(
         addTodo({
-          _id: response.data.returnedTodo._id,
-          text: response.data.returnedTodo.text,
-          completed: response.data.returnedTodo.completed,
+          _id: response.data.todos._id,
+          text: response.data.todos.text,
+          completed: response.data.todos.completed,
           activeTodosCount: response.data.paginationData.activeTodosCount,
           todosTotalCount: response.data.paginationData.todosTotalCount,
           pagesCount: response.data.paginationData.pagesCount
